@@ -54,6 +54,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Include="..\.editorconfig" Link=".editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\WorkTimer.Common\WorkTimer.Common.csproj" />
       <ProjectReference Include="..\WorkTimer.Data\WorkTimer.Data.csproj" />
       <ProjectReference Include="..\WorkTimer.Web.Common\WorkTimer.Web.Common.csproj" />
@@ -61,6 +65,15 @@
 
     <ItemGroup>
       <PackageReference Include="BlazorModalDialogs" Version="1.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="wwwroot\appsettings.Development.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

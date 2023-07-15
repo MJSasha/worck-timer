@@ -2,12 +2,16 @@ using BlazorModalDialogs;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using WorkTimer.Web;
+using WorkTimer.Web.Common;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+var appSettings = builder.Configuration.GetSection("AppSettings")?.Get<AppSettings>();
+
+builder.Services
+    .AddSingleton(appSettings);
 
 builder.Services.AddModalDialogs();
 
