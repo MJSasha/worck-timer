@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimer.Web", "WorkTimer.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkTimer.Web.Common", "WorkTimer.Web.Common\WorkTimer.Web.Common.csproj", "{8596246A-3084-4868-B9F6-FBF6129048A1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{1A5B9118-4805-411A-AAF2-BA280F0E9959}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Api", "..\QuickActions\QuickActions.Api\QuickActions.Api.csproj", "{A07774C5-9CC2-4650-88AD-0350AD4503ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Common", "..\QuickActions\QuickActions.Domains\QuickActions.Common.csproj", "{8B19717A-E1C2-47AA-AF9E-7D1B2BBE584D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,9 +53,21 @@ Global
 		{8596246A-3084-4868-B9F6-FBF6129048A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8596246A-3084-4868-B9F6-FBF6129048A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8596246A-3084-4868-B9F6-FBF6129048A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A07774C5-9CC2-4650-88AD-0350AD4503ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A07774C5-9CC2-4650-88AD-0350AD4503ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A07774C5-9CC2-4650-88AD-0350AD4503ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A07774C5-9CC2-4650-88AD-0350AD4503ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B19717A-E1C2-47AA-AF9E-7D1B2BBE584D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B19717A-E1C2-47AA-AF9E-7D1B2BBE584D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B19717A-E1C2-47AA-AF9E-7D1B2BBE584D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B19717A-E1C2-47AA-AF9E-7D1B2BBE584D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A07774C5-9CC2-4650-88AD-0350AD4503ED} = {1A5B9118-4805-411A-AAF2-BA280F0E9959}
+		{8B19717A-E1C2-47AA-AF9E-7D1B2BBE584D} = {1A5B9118-4805-411A-AAF2-BA280F0E9959}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C44EBB7D-373E-4CA1-B29A-E49205FA3558}

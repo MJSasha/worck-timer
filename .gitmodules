@@ -1,0 +1,3 @@
+[submodule "submodules/quick-actions"]
+	path = submodules/quick-actions
+	url = https://github.com/MJSasha/quick-actions.git

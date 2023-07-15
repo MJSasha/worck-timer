@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.WebView.Maui;
-using WorkTimer.App.Data;
+﻿using BlazorModalDialogs;
 
 namespace WorkTimer.App
 {
@@ -17,8 +16,10 @@ namespace WorkTimer.App
 
             builder.Services.AddMauiBlazorWebView();
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
+
+            builder.Services.AddModalDialogs();
 
             return builder.Build();
         }

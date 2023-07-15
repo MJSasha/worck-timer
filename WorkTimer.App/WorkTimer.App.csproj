@@ -59,4 +59,8 @@
       <ProjectReference Include="..\WorkTimer.Web.Common\WorkTimer.Web.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="BlazorModalDialogs" Version="1.0.5" />
+    </ItemGroup>
+
 </Project>
