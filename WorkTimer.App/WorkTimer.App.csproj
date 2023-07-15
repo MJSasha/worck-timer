@@ -33,7 +33,6 @@
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -43,11 +42,22 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Pages\" />
+      <Content Remove="C:\Users\Lapot\.nuget\packages\blazormodaldialogs\1.0.5\contentFiles\any\net6.0\Components\Dialog.razor.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiImage Remove="Resources\Images\calendar.svg" />
+      <MauiImage Remove="Resources\Images\timer.svg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\Images\calendar.svg" />
+      <None Remove="Resources\Images\timer.svg" />
     </ItemGroup>
 
     <ItemGroup>
       <None Include="..\.editorconfig" Link=".editorconfig" />
+      <None Include="Components\PageLayout.razor" />
     </ItemGroup>
 
     <ItemGroup>
@@ -58,6 +68,10 @@
 
     <ItemGroup>
       <PackageReference Include="BlazorModalDialogs" Version="1.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Images\" />
     </ItemGroup>
 
 </Project>

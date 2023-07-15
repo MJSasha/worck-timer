@@ -1,0 +1,33 @@
+<div class="nav-item nav-tab @(IsActive() ? "active" : "")" href="@Link" @onclick="OnClickInternal">
+    <div class="d-flex flex-column align-items-center">
+        <SvgImage Src="@ImageUrl" class="tab-image mt-1" />
+        <div class="tab-label mt-1">@Label</div>
+    </div>
+</div>
+
+@code {
+
+    [Inject]
+    protected NavigationManager navigationManager { get; set; }
+
+    [Parameter]
+    public string Link { get; set; }
+
+    [Parameter]
+    public string ImageUrl { get; set; }
+
+    [Parameter]
+    public string Label { get; set; }
+
+    protected bool IsActive()
+    {
+        if (Link == null) return false;
+        var uri = new Uri(navigationManager.Uri);
+        return uri.LocalPath?.StartsWith(Link) == true;
+    }
+
+    protected void OnClickInternal(MouseEventArgs e)
+    {
+        if (Link != null) navigationManager.NavigateTo(Link);
+    }
+}

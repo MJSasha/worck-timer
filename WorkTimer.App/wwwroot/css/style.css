@@ -1,0 +1,63 @@
+/*Texts*/
+
+.page-title {
+    font-size: 16pt;
+    color: var(--bs-primary);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.sub-header {
+    font-size: 12pt;
+    color: var(--bs-secondary);
+}
+
+/*Other*/
+
+.form-loading {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    z-index: 10000;
+}
+
+.spacing-1 > *:not(:last-child) {
+    margin-bottom: .25rem;
+}
+
+.spacing-2 > *:not(:last-child) {
+    margin-bottom: .5rem;
+}
+
+.spacing-3 > *:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.spacing-4 > *:not(:last-child) {
+    margin-bottom: 1.5rem;
+}
+
+.spacing-5 > *:not(:last-child) {
+    margin-bottom: 3rem;
+}
+
+.spacing-h-1 > *:not(:last-child) {
+    margin-right: .25rem;
+}
+
+.spacing-h-2 > *:not(:last-child) {
+    margin-right: .5rem;
+}
+
+.spacing-h-3 > *:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.spacing-h-4 > *:not(:last-child) {
+    margin-right: 1.5rem;
+}
+
+.spacing-h-5 > *:not(:last-child) {
+    margin-right: 3rem;
+}
+

@@ -1,0 +1,15 @@
+.nav-tab {
+    display: block;
+    padding: .5rem 1rem;
+    text-decoration: none;
+    color: var(--bs-gray);
+}
+
+::deep .tab-image {
+    width: 35px;
+    height: 35px;
+}
+
+.nav-tab.active {
+    color: var(--bs-primary);
+}
