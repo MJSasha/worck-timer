@@ -11,6 +11,8 @@ html, body {
 
 body, h1, h2, h3, h4, h5, h6 {
     font-family: 'Rubik';
+    font-size: 10pt;
+    color: var(--bs-secondary);
 }
 
 h1:focus {

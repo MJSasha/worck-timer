@@ -1,6 +1,9 @@
 ﻿using BlazorModalDialogs;
 using Microsoft.Extensions.Configuration;
+using WorkTimer.App.Services;
 using WorkTimer.Web.Common;
+using WorkTimer.Web.Common.Interfaces;
+using WorkTimer.Web.Common.Services;
 
 namespace WorkTimer.App
 {
@@ -33,6 +36,10 @@ namespace WorkTimer.App
 
             builder.Services
                 .AddSingleton(appSettings);
+
+            builder.Services
+                .AddSingleton<LocalStorageService>()
+                .AddSingleton<IStorageService, StorageService>();
 
             builder.Services.AddModalDialogs();
 

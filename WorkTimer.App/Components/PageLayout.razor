@@ -2,6 +2,9 @@
     <div class="page-header">
         @Header
     </div>
+    <div style="background-color: var(--bs-light);">
+        @Subheader
+    </div>
     @if (!IsLoading)
     {
         <div class="page-body h-100">@Content</div>
@@ -35,6 +38,9 @@
 
     [Parameter]
     public RenderFragment Header { get; set; }
+
+    [Parameter]
+    public RenderFragment Subheader { get; set; }
 
     [Parameter]
     public RenderFragment Content { get; set; }

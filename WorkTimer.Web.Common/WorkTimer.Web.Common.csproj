@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\QuickActions\QuickActions.Domains\QuickActions.Common.csproj" />
     <ProjectReference Include="..\WorkTimer.Common\WorkTimer.Common.csproj" />
     <ProjectReference Include="..\WorkTimer.Data\WorkTimer.Data.csproj" />
