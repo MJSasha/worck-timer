@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WorckTimer.Api;
+using WorkTimer.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\QuickActions\QuickActions.Domains\QuickActions.Common.csproj" />
     <ProjectReference Include="..\WorkTimer.Data\WorkTimer.Data.csproj" />
   </ItemGroup>
 

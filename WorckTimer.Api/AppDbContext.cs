@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorkTimer.Common.Models;
 
-namespace WorckTimer.Api
+namespace WorkTimer.Api
 {
     public class AppDbContext : DbContext
     {

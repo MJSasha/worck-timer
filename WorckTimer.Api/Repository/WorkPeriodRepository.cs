@@ -1,7 +1,8 @@
 ﻿using QuickActions.Api;
+using WorkTimer.Api;
 using WorkTimer.Common.Models;
 
-namespace WorckTimer.Api.Repository
+namespace WorkTimer.Api.Repository
 {
     public class WorkPeriodRepository : CrudRepository<WorkPeriod>
     {

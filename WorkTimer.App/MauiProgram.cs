@@ -42,6 +42,7 @@ namespace WorkTimer.App
                 .AddSingleton<IStorageService, StorageService>();
 
             builder.Services.AddModalDialogs();
+            builder.Services.ProvideCommonServices(appSettings);
 
             return builder.Build();
         }
