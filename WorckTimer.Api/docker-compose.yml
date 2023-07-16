@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+
+# Database
+  work-timer-db:
+    image: mysql
+    container_name: work-timer-db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: work-timer-db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
