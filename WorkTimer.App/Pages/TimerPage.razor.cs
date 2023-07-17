@@ -60,18 +60,21 @@ namespace WorkTimer.App.Pages
 
         private async Task SyncPeriods()
         {
+            IsLoading = true;
             await localStorageService.SyncPeriods();
             await LoadData();
         }
 
         private async Task LoadPeriods()
         {
+            IsLoading = true;
             await localStorageService.LoadPeriods();
             await LoadData();
         }
 
         private async Task ClearPeriods()
         {
+            IsLoading = true;
             await localStorageService.ClearPeriods();
             await LoadData();
         }
