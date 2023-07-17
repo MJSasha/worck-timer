@@ -1,5 +1,4 @@
 ﻿using BlazorModalDialogs;
-using Microsoft.Extensions.Configuration;
 using WorkTimer.App.Services;
 using WorkTimer.Web.Common;
 using WorkTimer.Web.Common.Interfaces;
@@ -24,13 +23,13 @@ namespace WorkTimer.App
             builder.Services.AddBlazorWebViewDeveloperTools();
             var appSettings = new AppSettings
             {
-                ApiUri = "http://127.0.0.1:8080/"
+                ApiUri = "http://192.168.1.57:8080"
             };
 
 #elif RELEASE
             var appSettings = new AppSettings
             {
-                ApiUri = "http://127.0.0.1:8080/"
+                ApiUri = "http://127.0.0.1:8080"
             };
 #endif
 

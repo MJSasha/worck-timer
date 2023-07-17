@@ -1,0 +1,19 @@
+﻿@using WorkTimer.Common.Interfaces;
+@using WorkTimer.Common.Models;
+
+@page "/"
+
+<div @onclick="Test">TEST</div>
+
+@code {
+    [Inject]
+    protected IWorkPeriod workPeriodService { get; set; }
+
+    private async void Test()
+    {
+        await workPeriodService.SyncPeriods(new List<WorkPeriod>
+        {
+            new WorkPeriod { StartAt = DateTime.UtcNow, EndAt = DateTime.UtcNow }
+        });
+    }
+}

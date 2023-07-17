@@ -21,3 +21,9 @@
         box-shadow: 0 0 2px darkslategray;
         transform: translateY(2px);
     }
+
+::deep .dots-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--bs-gray);
+}

@@ -13,5 +13,13 @@ namespace WorkTimer.Api.Controllers
         public WorkPeriodsController(WorkPeriodRepository workPeriodRepository) : base(workPeriodRepository)
         {
         }
+
+        [HttpPost("SyncPeriods")]
+        public async Task<List<WorkPeriod>> SyncPeriods([FromBody] List<WorkPeriod> periods)
+        {
+            periods.ForEach(p => p.Synced = true);
+            await Create(periods);
+            return periods;
+        }
     }
 }

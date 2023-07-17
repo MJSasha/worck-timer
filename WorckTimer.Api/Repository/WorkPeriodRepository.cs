@@ -1,5 +1,4 @@
 ﻿using QuickActions.Api;
-using WorkTimer.Api;
 using WorkTimer.Common.Models;
 
 namespace WorkTimer.Api.Repository

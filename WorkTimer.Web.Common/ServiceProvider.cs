@@ -8,7 +8,12 @@ namespace WorkTimer.Web.Common
     {
         public static IServiceCollection ProvideCommonServices(this IServiceCollection services, AppSettings appSettings)
         {
-            services.AddSingleton(RestService.For<IWorkPeriod>(appSettings.ApiUri + "WorkPeriods"));
+            services.AddSingleton(RestService.For<IWorkPeriod>(new HttpClient
+            {
+                BaseAddress = new Uri($"{appSettings.ApiUri}/WorkPeriods"),
+                Timeout = TimeSpan.FromSeconds(appSettings.Timeout),
+                MaxResponseContentBufferSize = int.MaxValue,
+            }));
 
             return services;
         }

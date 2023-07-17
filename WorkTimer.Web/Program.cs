@@ -14,5 +14,6 @@ builder.Services
     .AddSingleton(appSettings);
 
 builder.Services.AddModalDialogs();
+builder.Services.ProvideCommonServices(appSettings);
 
 await builder.Build().RunAsync();

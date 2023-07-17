@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\WorkTimer.Common\WorkTimer.Common.csproj" />
     <ProjectReference Include="..\WorkTimer.Data\WorkTimer.Data.csproj" />
     <ProjectReference Include="..\WorkTimer.Web.Common\WorkTimer.Web.Common.csproj" />

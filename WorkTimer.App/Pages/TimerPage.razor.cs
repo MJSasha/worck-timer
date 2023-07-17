@@ -58,6 +58,24 @@ namespace WorkTimer.App.Pages
             }
         }
 
+        private async Task SyncPeriods()
+        {
+            await localStorageService.SyncPeriods();
+            await LoadData();
+        }
+
+        private async Task LoadPeriods()
+        {
+            await localStorageService.LoadPeriods();
+            await LoadData();
+        }
+
+        private async Task ClearPeriods()
+        {
+            await localStorageService.ClearPeriods();
+            await LoadData();
+        }
+
         private void RefreshTimeTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             refreshTimeTimer.Stop();
@@ -71,8 +89,7 @@ namespace WorkTimer.App.Pages
 
         void IDisposable.Dispose()
         {
-            refreshTimeTimer.Stop();
-            refreshTimeTimer.Dispose();
+            refreshTimeTimer?.Dispose();
         }
     }
 }
