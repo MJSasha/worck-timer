@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using WorkTimer.App.Services;
 using WorkTimer.Common.Models;
 using WorkTimer.Web.Common.Services;
 using Timer = System.Timers.Timer;
@@ -9,6 +10,9 @@ namespace WorkTimer.App.Pages
     {
         [Inject]
         protected LocalStorageService localStorageService { get; set; }
+
+        [Inject]
+        protected IBackgroundService backgroundService { get; set; }
 
         private TimeSpan CurrentWorkTime { get; set; }
         private List<WorkPeriod> TodayPeriods { get; set; }
@@ -28,6 +32,7 @@ namespace WorkTimer.App.Pages
 
             refreshTimeTimer = new Timer(TimeSpan.FromSeconds(1).TotalMilliseconds);
             refreshTimeTimer.Elapsed += RefreshTimeTimer_Elapsed;
+            refreshTimeTimer.AutoReset = false;
         }
 
         private async Task LoadData()
@@ -46,11 +51,13 @@ namespace WorkTimer.App.Pages
             TimerIsRunning = value;
             if (TimerIsRunning)
             {
+                backgroundService.StartBackgroundProcess();
                 currentPeriod = new WorkPeriod { StartAt = DateTime.UtcNow };
                 refreshTimeTimer.Start();
             }
             else
             {
+                backgroundService.StopBackgroundProcess();
                 currentPeriod.EndAt = DateTime.UtcNow;
                 refreshTimeTimer.Stop();
                 await localStorageService.WritePeriod(currentPeriod);
@@ -81,7 +88,6 @@ namespace WorkTimer.App.Pages
 
         private void RefreshTimeTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            refreshTimeTimer.Stop();
             Task.Run(async () =>
             {
                 CurrentWorkTime = DateTime.UtcNow.Subtract(currentPeriod.StartAt);

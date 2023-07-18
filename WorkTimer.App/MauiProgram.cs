@@ -1,4 +1,5 @@
 ﻿using BlazorModalDialogs;
+using WorkTimer.App.Platforms.Android;
 using WorkTimer.App.Services;
 using WorkTimer.Web.Common;
 using WorkTimer.Web.Common.Interfaces;
@@ -31,6 +32,12 @@ namespace WorkTimer.App
             {
                 ApiUri = "http://127.0.0.1:8080"
             };
+#endif
+
+#if ANDROID
+            builder.Services.AddTransient<IBackgroundService, AndroidBackgroundService>();
+#elif IOS
+            //builder.Services.AddTransient<IBackgroundService, IosBackgroundService>();
 #endif
 
             builder.Services

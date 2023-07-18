@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace WorkTimer.App
+namespace WorkTimer.App.Platforms.iOS
 {
     public class Program
     {

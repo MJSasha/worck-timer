@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace WorkTimer.App
+namespace WorkTimer.App.Platforms.Android
 {
 #if DEBUG
     [Application(UsesCleartextTraffic = true)]

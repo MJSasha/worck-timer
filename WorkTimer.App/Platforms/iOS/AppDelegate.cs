@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace WorkTimer.App
+namespace WorkTimer.App.Platforms.iOS
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
