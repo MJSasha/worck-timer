@@ -18,8 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QuickActions\QuickActions.Api\QuickActions.Api.csproj" />
-    <ProjectReference Include="..\..\QuickActions\QuickActions.Domains\QuickActions.Common.csproj" />
+    <ProjectReference Include="..\submodules\quick-actions\QuickActions.Api.Identity\QuickActions.Api.Identity.csproj" />
+    <ProjectReference Include="..\submodules\quick-actions\QuickActions.Api\QuickActions.Api.csproj" />
+    <ProjectReference Include="..\submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj" />
     <ProjectReference Include="..\WorkTimer.Common\WorkTimer.Common.csproj" />
     <ProjectReference Include="..\WorkTimer.Data\WorkTimer.Data.csproj" />
   </ItemGroup>

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using QuickActions.Api.Identity;
 using WorkTimer.Api;
 using WorkTimer.Api.Repository;
+using WorkTimer.Common.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))),
     contextLifetime: ServiceLifetime.Transient);
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddIdentity<User>("session-key", rolesChecker: (s, r) => r.Contains(nameof(s.Data)));
 
 builder.Services
     .AddTransient<WorkPeriodRepository>();
