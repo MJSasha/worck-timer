@@ -5,16 +5,18 @@ using QuickActions.Common.Data;
 using QuickActions.Common.Specifications;
 using System.Net;
 using System.Web.Http;
-using WorkTimer.Api.Data;
 using WorkTimer.Api.Repository;
+using WorkTimer.Common.Data;
+using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
+using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace WorkTimer.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersIdentityController : IdentityController<User>
+    public class UsersIdentityController : IdentityController<User>, IUsersIdentity
     {
         private readonly SessionsService<User> sessionsService;
         private readonly UsersRepository usersRepository;
@@ -25,6 +27,7 @@ namespace WorkTimer.Api.Controllers
             this.usersRepository = usersRepository;
         }
 
+        [HttpPost("login")]
         public async Task<string> Login(AuthModel authModel)
         {
             if (string.IsNullOrWhiteSpace(authModel.Email) || string.IsNullOrWhiteSpace(authModel.Password)) throw new HttpResponseException(HttpStatusCode.BadRequest);

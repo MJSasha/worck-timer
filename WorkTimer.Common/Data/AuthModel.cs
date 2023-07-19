@@ -1,4 +1,4 @@
-﻿namespace WorkTimer.Api.Data
+﻿namespace WorkTimer.Common.Data
 {
     public class AuthModel
     {

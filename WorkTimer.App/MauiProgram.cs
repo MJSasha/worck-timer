@@ -1,5 +1,4 @@
 ﻿using BlazorModalDialogs;
-using WorkTimer.App.Platforms.Android;
 using WorkTimer.App.Services;
 using WorkTimer.Web.Common;
 using WorkTimer.Web.Common.Interfaces;
@@ -35,7 +34,7 @@ namespace WorkTimer.App
 #endif
 
 #if ANDROID
-            builder.Services.AddTransient<IBackgroundService, AndroidBackgroundService>();
+            //builder.Services.AddTransient<IBackgroundService, AndroidBackgroundService>();
 #elif IOS
             //builder.Services.AddTransient<IBackgroundService, IosBackgroundService>();
 #endif
