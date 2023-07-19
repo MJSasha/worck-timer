@@ -32,7 +32,7 @@ namespace WorkTimer.Api.Controllers
         {
             if (string.IsNullOrWhiteSpace(authModel.Email) || string.IsNullOrWhiteSpace(authModel.Password)) throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-            var user = await usersRepository.Read(new Specification<User>(u => u.Email == authModel.Email && u.Password == authModel.Password)) ?? throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            var user = await usersRepository.Read(new Specification<User>(u => u.Email == authModel.Email && u.Password == authModel.Password)) ?? throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "User not found." });
 
             return sessionsService.CreateSession(new Session<User> { Data = user });
         }
