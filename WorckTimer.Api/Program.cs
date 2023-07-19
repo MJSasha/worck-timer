@@ -21,6 +21,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentity<User>("session-key", rolesChecker: (s, r) => r.Contains(nameof(s.Data)));
 
 builder.Services
+    .AddTransient<UsersRepository>()
     .AddTransient<WorkPeriodRepository>();
 
 var app = builder.Build();
