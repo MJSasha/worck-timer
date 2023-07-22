@@ -3,6 +3,7 @@ using QuickActions.Common.Interfaces;
 using Refit;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
+using WorkTimer.Web.Common.Services;
 
 namespace WorkTimer.Web.Common
 {
@@ -10,22 +11,25 @@ namespace WorkTimer.Web.Common
     {
         public static IServiceCollection ProvideCommonServices(this IServiceCollection services, AppSettings appSettings)
         {
+            services.AddTransient<CookieHandler>()
+                .AddTransient(sp => sp
+                    .GetRequiredService<IHttpClientFactory>()
+                    .CreateClient("API"))
+                .AddHttpClient("API", client => client.BaseAddress = new Uri(appSettings.ApiUri)).AddHttpMessageHandler<CookieHandler>();
+
             services
-                .AddSingleton<IIdentity<User>>(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", appSettings)))
-                .AddSingleton(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", appSettings)))
-                .AddSingleton(RestService.For<IWorkPeriod>(CreateClient("WorkPeriods", appSettings)));
+                .AddSingleton<IIdentity<User>>(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services)))
+                .AddSingleton(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services)))
+                .AddSingleton(RestService.For<IWorkPeriod>(CreateClient("WorkPeriods", services)));
 
             return services;
         }
 
-        private static HttpClient CreateClient(string prefix, AppSettings appSettings)
+        private static HttpClient CreateClient(string prefix, IServiceCollection services)
         {
-            return new HttpClient
-            {
-                BaseAddress = new Uri($"{appSettings.ApiUri}/{prefix}"),
-                Timeout = TimeSpan.FromSeconds(appSettings.Timeout),
-                MaxResponseContentBufferSize = int.MaxValue,
-            };
+            var client = services.BuildServiceProvider().GetService<HttpClient>();
+            client.BaseAddress = new Uri($"{client.BaseAddress}{prefix}");
+            return client;
         }
     }
 }

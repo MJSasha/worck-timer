@@ -2,6 +2,16 @@
 {
     public static class Pages
     {
+        public static class Login
+        {
+            private static string pageUrl = "/login";
+
+            public static string GetUrl()
+            {
+                return pageUrl;
+            }
+        }
+
         public static class Timer
         {
             private static string pageUrl = "/timer";

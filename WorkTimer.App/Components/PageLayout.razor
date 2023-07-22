@@ -1,10 +1,16 @@
 ﻿<div class="page-container d-flex flex-column h-100">
-    <div class="page-header">
-        @Header
-    </div>
-    <div style="background-color: var(--bs-light);">
-        @Subheader
-    </div>
+    @if (Header != null)
+    {
+        <div class="page-header">
+            @Header
+        </div>
+    }
+    @if (Subheader != null)
+    {
+        <div style="background-color: var(--bs-light);">
+            @Subheader
+        </div>
+    }
     @if (!IsLoading)
     {
         <div class="page-body h-100">@Content</div>
