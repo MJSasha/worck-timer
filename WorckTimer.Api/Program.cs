@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using QuickActions.Api;
 using QuickActions.Api.Identity;
 using QuickActions.Api.Identity.IdentityCheck;
 using WorkTimer.Api;
@@ -51,6 +52,7 @@ app.UseCors(x => x
     .AllowCredentials());
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler(exception => exception.AddExceptionsHandling());
 
 app.MapControllers();
 
