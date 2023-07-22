@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WorkTimer.Common.Definitions;
 using WorkTimer.Common.Models;
 
 namespace WorkTimer.Api
@@ -9,5 +10,12 @@ namespace WorkTimer.Api
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, Email = "admin", Password = "admin", Role = UserRole.Admin, Name = "admin" });
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

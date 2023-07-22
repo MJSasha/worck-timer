@@ -17,7 +17,7 @@ namespace WorkTimer.Api.Controllers
         }
 
         [HttpPost("SyncPeriods")]
-        [Identity(nameof(UserRole.Admin))]
+        [Identity]
         public async Task<List<WorkPeriod>> SyncPeriods([FromBody] List<WorkPeriod> periods)
         {
             periods.ForEach(p => p.Synced = true);
