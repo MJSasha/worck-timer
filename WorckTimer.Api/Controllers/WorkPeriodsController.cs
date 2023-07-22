@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuickActions.Api;
+using QuickActions.Api.Identity.IdentityCheck;
 using WorkTimer.Api.Repository;
+using WorkTimer.Common.Definitions;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
 
@@ -15,6 +17,7 @@ namespace WorkTimer.Api.Controllers
         }
 
         [HttpPost("SyncPeriods")]
+        [Identity(nameof(UserRole.Admin))]
         public async Task<List<WorkPeriod>> SyncPeriods([FromBody] List<WorkPeriod> periods)
         {
             periods.ForEach(p => p.Synced = true);

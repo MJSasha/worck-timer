@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QuickActions.Api.Identity;
+using QuickActions.Api.Identity.IdentityCheck;
 using WorkTimer.Api;
 using WorkTimer.Api.Repository;
 using WorkTimer.Common.Models;
@@ -8,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<IdentityFilter<User>>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -18,7 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(
     contextLifetime: ServiceLifetime.Transient);
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddIdentity<User>("session-key", rolesChecker: (s, r) => r.Contains(nameof(s.Data)));
+builder.Services.AddIdentity<User>("session-key", rolesChecker: (s, r) => r.Contains(s.Data.Role.ToString()));
 
 builder.Services
     .AddTransient<UsersRepository>()
@@ -47,8 +51,6 @@ app.UseCors(x => x
     .AllowCredentials());
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 
