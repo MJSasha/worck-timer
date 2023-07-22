@@ -1,10 +1,20 @@
-﻿@inherits LayoutComponentBase
+﻿@using QuickActions.Web.Identity.Components
+@using WorkTimer.Common.Models;
 
-<div class="page">
-	<main>
-		<article class="content">
-			@Body
-		</article>
-	</main>
-</div>
+@inherits LayoutComponentBase;
+
+<AuthorizationLayout TSession="User">
+	<Authorized>
+		<div class="page">
+			<main>
+				<article class="content">
+					@Body
+				</article>
+			</main>
+		</div>
+	</Authorized>
+	<NotAuthorized>
+		Not auth
+	</NotAuthorized>
+</AuthorizationLayout>
 <DialogProvider />

@@ -1,5 +1,8 @@
 ﻿using BlazorModalDialogs;
+using QuickActions.Web.Identity;
 using WorkTimer.App.Services;
+using WorkTimer.Common.Interfaces;
+using WorkTimer.Common.Models;
 using WorkTimer.Web.Common;
 using WorkTimer.Web.Common.Interfaces;
 using WorkTimer.Web.Common.Services;
@@ -46,8 +49,10 @@ namespace WorkTimer.App
                 .AddSingleton<LocalStorageService>()
                 .AddSingleton<IStorageService, StorageService>();
 
-            builder.Services.AddModalDialogs();
-            builder.Services.ProvideCommonServices(appSettings);
+            builder.Services
+                .ProvideCommonServices(appSettings)
+                .AddModalDialogs()
+                .AddIdentity<User>("session-key");
 
             return builder.Build();
         }
