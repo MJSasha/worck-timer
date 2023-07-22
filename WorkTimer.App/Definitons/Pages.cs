@@ -12,6 +12,16 @@
             }
         }
 
+        public static class Logout
+        {
+            private static string pageUrl = "/logout";
+
+            public static string GetUrl()
+            {
+                return pageUrl;
+            }
+        }
+
         public static class Timer
         {
             private static string pageUrl = "/timer";

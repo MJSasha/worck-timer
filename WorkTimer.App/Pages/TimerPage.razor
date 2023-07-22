@@ -1,5 +1,6 @@
 @page "/timer"
 
+@attribute [Authorize]
 
 <PageLayout IsLoading="IsLoading" ShowTabs>
     <Header>
@@ -17,6 +18,7 @@
                         <div class="dropdown-item" @onclick="async _ => await SyncPeriods()">Синхронизировать</div>
                         <div class="dropdown-item" @onclick="async _ => await LoadPeriods()">Загрузить</div>
                         <div class="dropdown-item text-danger" @onclick="async _ => await ClearPeriods()">Очистить</div>
+                        <div class="dropdown-item text-danger" @onclick="_ => { tokenAuthStateProvider.SetLogoutState(); navigationManager.NavigateTo(Definitons.Pages.Logout.GetUrl()); }">Выход</div>
                     </div>
                 </div>
             </div>

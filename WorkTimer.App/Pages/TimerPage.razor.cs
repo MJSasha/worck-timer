@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
+using QuickActions.Web.Identity.Services;
 using WorkTimer.App.Services;
 using WorkTimer.Common.Models;
 using WorkTimer.Web.Common.Services;
@@ -6,13 +8,23 @@ using Timer = System.Timers.Timer;
 
 namespace WorkTimer.App.Pages
 {
+    [Authorize]
     public partial class TimerPage : ComponentBase, IDisposable
     {
         [Inject]
         protected LocalStorageService localStorageService { get; set; }
 
         [Inject]
-        protected IBackgroundService backgroundService { get; set; }
+        protected ExceptionsHandler exceptionsHandler { get; set; }
+
+        [Inject]
+        protected TokenAuthStateProvider<User> tokenAuthStateProvider { get; set; }
+
+        [Inject]
+        protected NavigationManager navigationManager { get; set; }
+
+        //[Inject]
+        //protected IBackgroundService backgroundService { get; set; }
 
         private TimeSpan CurrentWorkTime { get; set; }
         private List<WorkPeriod> TodayPeriods { get; set; }
@@ -51,13 +63,13 @@ namespace WorkTimer.App.Pages
             TimerIsRunning = value;
             if (TimerIsRunning)
             {
-                backgroundService.StartBackgroundProcess();
+                //backgroundService.StartBackgroundProcess();
                 currentPeriod = new WorkPeriod { StartAt = DateTime.UtcNow };
                 refreshTimeTimer.Start();
             }
             else
             {
-                backgroundService.StopBackgroundProcess();
+                //backgroundService.StopBackgroundProcess();
                 currentPeriod.EndAt = DateTime.UtcNow;
                 refreshTimeTimer.Stop();
                 await localStorageService.WritePeriod(currentPeriod);
@@ -67,16 +79,30 @@ namespace WorkTimer.App.Pages
 
         private async Task SyncPeriods()
         {
-            IsLoading = true;
-            await localStorageService.SyncPeriods();
-            await LoadData();
+            try
+            {
+                IsLoading = true;
+                await localStorageService.SyncPeriods();
+                await LoadData();
+            }
+            catch (Exception ex)
+            {
+                await exceptionsHandler.Handle(ex);
+            }
         }
 
         private async Task LoadPeriods()
         {
-            IsLoading = true;
-            await localStorageService.LoadPeriods();
-            await LoadData();
+            try
+            {
+                IsLoading = true;
+                await localStorageService.LoadPeriods();
+                await LoadData();
+            }
+            catch (Exception ex)
+            {
+                await exceptionsHandler.Handle(ex);
+            }
         }
 
         private async Task ClearPeriods()

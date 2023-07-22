@@ -42,6 +42,7 @@ namespace WorkTimer.App.Pages
             }
             catch (Exception ex)
             {
+                IsLoginFailed = true;
                 Console.WriteLine(ex);
                 // TODO - add errors handling
             }
