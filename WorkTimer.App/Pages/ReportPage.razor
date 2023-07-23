@@ -16,7 +16,7 @@
 
             <div class="section-title">Часы за @SelectedMonth.GetMonthName() @SelectedMonth.Year</div>
 
-            <div class="d-flex flex-row"><div class="subsection-title">Всего за месяц:</div> @(TimeSpan.FromHours(MonthStatistic.Sum(s => (24 * s.Value) / 100)).Humanize())</div>
+            <div class="d-flex flex-row align-items-center"><div class="subsection-title me-1">Всего за месяц:</div> @(TimeSpan.FromHours(MonthStatistic.Sum(s => (24 * s.Value) / 100)).Humanize())</div>
 
             <div class="subsection-title">По дням:</div>
             <div class="separator-horizontal" />

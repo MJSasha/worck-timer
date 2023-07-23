@@ -63,7 +63,7 @@
             {
                 <div class="section-title">Периоды за @(new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDay.Day).HumanizeDate())</div>
 
-                <div class="d-flex flex-row"><div class="subsection-title">Всего за день:</div> @(TimeSpan.FromHours((24 * MonthStatistic[SelectedDay.Day]) / 100).Humanize())</div>
+                <div class="d-flex flex-row align-items-center"><div class="subsection-title me-1">Всего за день:</div>@(TimeSpan.FromHours((24 * MonthStatistic[SelectedDay.Day]) / 100).Humanize())</div>
 
                 <div class="d-flex flex-row justify-content-between">
                     <div>
