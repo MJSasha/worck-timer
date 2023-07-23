@@ -1,4 +1,6 @@
 ﻿using BlazorModalDialogs;
+using BlazorModalDialogs.Dialogs.InputDialog;
+using BlazorModalDialogs.Dialogs.MessageDialog;
 using Microsoft.JSInterop;
 using QuickActions.Web.Identity;
 using WorkTimer.App.Services;
@@ -45,7 +47,7 @@ namespace WorkTimer.App
                 .AddSingleton<SessionCookieService>(sp => new SessionStorageService(sp.GetRequiredService<IJSRuntime>(), "session-key", sp.GetRequiredService<IStorageService>()));
 
             builder.Services
-                .AddModalDialogs()
+                .AddModalDialogs(typeof(MessageDialog), typeof(InputDialog))
                 .AddIdentity<User>("session-key", useCustomStorageService: true)
                 .ProvideCommonServices(appSettings);
 
