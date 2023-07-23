@@ -11,7 +11,7 @@
         </div>
     </Header>
     <Content>
-        <div class="p-3">
+        <div class="p-3 spacing-3">
             <div class="calendar">
                 <div class="calendar-header">
                     <span class="month-picker">@SelectedDate.Year</span>
@@ -40,21 +40,57 @@
                         {
                             <div />
                         }
-                        @for (int i = 0; i < DateTime.DaysInMonth(SelectedDate.Year, SelectedDate.Month); i++)
-                        {
-                            <div class="calendar-day-hover">
-                                <div style="margin-left: .1rem">
-                                    @(i + 1)
+                        @{
+                            for (int i = 0; i < DateTime.DaysInMonth(SelectedDate.Year, SelectedDate.Month); i++)
+                            {
+                                int j = i;
+                                <div class="@(SelectedDay == j + 1 ? "selected-date" : "")" @onclick="async _ => await ShowDayInfo(j + 1)">
+                                    <div style="margin-left: .1rem">
+                                        @(j + 1)
+                                    </div>
+                                    @if (MonthStatistic.ContainsKey(j + 1))
+                                    {
+                                        <CircleProgressBar Value="MonthStatistic[j + 1]" Light="SelectedDay == j + 1" />
+                                    }
                                 </div>
-                                @if (MonthStatistic.ContainsKey(i + 1))
-                                {
-                                    <CircleProgressBar Value="MonthStatistic[i + 1]" />
-                                }
-                            </div>
+                            }
                         }
                     </div>
                 </div>
             </div>
+
+            @if (SelectedDay != default)
+            {
+                <div class="section-title">Периоды за @(new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDay).HumanizeDate())</div>
+
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <b>Начало</b>
+                    </div>
+                    <div>
+                        <b>Конец</b>
+                    </div>
+                </div>
+
+                <div class="separator-horizontal" />
+
+                @foreach (var period in DayPeriods)
+                {
+                    <div class="d-flex flex-row justify-content-between">
+                        <div>
+                            @period.StartAt.Humanize()
+                        </div>
+                        <div>
+                            @period.EndAt.Humanize()
+                        </div>
+                    </div>
+
+                    @if (DayPeriods.IndexOf(period) < DayPeriods.Count - 1)
+                    {
+                        <div class="separator-horizontal" />
+                    }
+                }
+            }
         </div>
     </Content>
 </PageLayout>

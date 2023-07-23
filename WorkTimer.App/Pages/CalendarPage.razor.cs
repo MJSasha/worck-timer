@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using QuickActions.Common.Specifications;
 using WorkTimer.App.Services;
 using WorkTimer.Common.Interfaces;
+using WorkTimer.Common.Models;
 
 namespace WorkTimer.App.Pages
 {
@@ -16,6 +18,8 @@ namespace WorkTimer.App.Pages
 
         private DateTime SelectedDate { get; set; }
         private Dictionary<int, double> MonthStatistic { get; set; }
+        private int SelectedDay { get; set; }
+        private List<WorkPeriod> DayPeriods { get; set; }
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
 
         private bool isLoading;
@@ -26,6 +30,7 @@ namespace WorkTimer.App.Pages
 
             SelectedDate = DateTime.Today;
             await LoadData();
+            await ShowDayInfo(DateTime.Today.Day);
         }
 
         private async Task LoadData()
@@ -35,6 +40,30 @@ namespace WorkTimer.App.Pages
             try
             {
                 MonthStatistic = await workPeriodService.GetMonthStatistic(SelectedDate);
+            }
+            catch (Exception ex)
+            {
+                await exceptionsHandler.Handle(ex);
+            }
+
+            IsLoading = false;
+        }
+
+        private async Task ShowDayInfo(int dayNumber)
+        {
+            if (SelectedDay == dayNumber) return;
+            IsLoading = true;
+
+            try
+            {
+                var selectedDate = new DateTime(SelectedDate.Year, SelectedDate.Month, dayNumber).Date;
+                DayPeriods = await workPeriodService.Read(new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate && sp.EndAt < selectedDate.AddDays(1)), 0, int.MaxValue);
+                if (DayPeriods == null || !DayPeriods.Any())
+                {
+                    IsLoading = false;
+                    return;
+                }
+                SelectedDay = dayNumber;
             }
             catch (Exception ex)
             {

@@ -9,6 +9,10 @@
     animation: progress 2s 1 forwards;
 }
 
+    .progress-bar.light {
+        background: radial-gradient(closest-side, var(--bs-primary) 30%, transparent 0% 100%), conic-gradient(var(--bs-info) calc(var(--progress-value) * 1%), var(--bs-white) 0);
+    }
+
     .progress-bar::before {
         counter-reset: percentage var(--progress-value);
         animation: progress 2s 1 forwards;

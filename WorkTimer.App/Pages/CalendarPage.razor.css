@@ -182,3 +182,9 @@
             text-align: center;
             cursor: pointer;
         }
+
+.selected-date {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+    border-radius: 50%;
+}
