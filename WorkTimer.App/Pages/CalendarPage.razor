@@ -46,7 +46,10 @@
                                 <div style="margin-left: .1rem">
                                     @(i + 1)
                                 </div>
-                                <CircleProgressBar Value="i" />
+                                @if (MonthStatistic.ContainsKey(i + 1))
+                                {
+                                    <CircleProgressBar Value="MonthStatistic[i + 1]" />
+                                }
                             </div>
                         }
                     </div>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using WorkTimer.App.Services;
+using WorkTimer.Common.Interfaces;
 
 namespace WorkTimer.App.Pages
 {
@@ -10,7 +11,11 @@ namespace WorkTimer.App.Pages
         [Inject]
         protected ExceptionsHandler exceptionsHandler { get; set; }
 
+        [Inject]
+        protected IWorkPeriod workPeriodService { get; set; }
+
         private DateTime SelectedDate { get; set; }
+        private Dictionary<int, double> MonthStatistic { get; set; }
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
 
         private bool isLoading;
@@ -29,7 +34,7 @@ namespace WorkTimer.App.Pages
 
             try
             {
-
+                MonthStatistic = await workPeriodService.GetMonthStatistic(SelectedDate);
             }
             catch (Exception ex)
             {

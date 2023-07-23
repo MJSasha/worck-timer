@@ -35,6 +35,7 @@ namespace WorkTimer.App.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            IsLoading = true;
 
             currentPeriod = await workPeriodsService.LoadCurrentPeriod();
             await LoadData();
