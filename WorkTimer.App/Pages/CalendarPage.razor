@@ -44,13 +44,13 @@
                             for (int i = 0; i < DateTime.DaysInMonth(SelectedDate.Year, SelectedDate.Month); i++)
                             {
                                 int j = i;
-                                <div class="@(SelectedDay == j + 1 ? "selected-date" : "")" @onclick="async _ => await ShowDayInfo(j + 1)">
+                                <div class="@(SelectedDay.Day == j + 1 && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year ? "selected-date" : "")" style="@(!MonthStatistic.ContainsKey(j + 1) ? "pointer-events: none;" : "")" @onclick="async _ => await ShowDayInfo(j + 1)">
                                     <div style="margin-left: .1rem">
                                         @(j + 1)
                                     </div>
                                     @if (MonthStatistic.ContainsKey(j + 1))
                                     {
-                                        <CircleProgressBar Value="MonthStatistic[j + 1]" Light="SelectedDay == j + 1" />
+                                        <CircleProgressBar Value="MonthStatistic[j + 1]" Light="SelectedDay.Day == j + 1 && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year" />
                                     }
                                 </div>
                             }
@@ -59,9 +59,11 @@
                 </div>
             </div>
 
-            @if (SelectedDay != default)
+            @if (MonthStatistic.ContainsKey(SelectedDay.Day) && DayPeriods != null)
             {
-                <div class="section-title">Периоды за @(new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDay).HumanizeDate())</div>
+                <div class="section-title">Периоды за @(new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDay.Day).HumanizeDate())</div>
+
+                <div><b>Всего за день:</b> @(TimeSpan.FromHours((24 * MonthStatistic[SelectedDay.Day]) / 100).Humanize())</div>
 
                 <div class="d-flex flex-row justify-content-between">
                     <div>

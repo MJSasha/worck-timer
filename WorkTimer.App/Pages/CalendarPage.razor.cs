@@ -18,7 +18,7 @@ namespace WorkTimer.App.Pages
 
         private DateTime SelectedDate { get; set; }
         private Dictionary<int, double> MonthStatistic { get; set; }
-        private int SelectedDay { get; set; }
+        private DateTime SelectedDay { get; set; }
         private List<WorkPeriod> DayPeriods { get; set; }
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
 
@@ -51,7 +51,7 @@ namespace WorkTimer.App.Pages
 
         private async Task ShowDayInfo(int dayNumber)
         {
-            if (SelectedDay == dayNumber) return;
+            if (SelectedDay.Day == dayNumber && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year) return;
             IsLoading = true;
 
             try
@@ -63,7 +63,7 @@ namespace WorkTimer.App.Pages
                     IsLoading = false;
                     return;
                 }
-                SelectedDay = dayNumber;
+                SelectedDay = selectedDate;
             }
             catch (Exception ex)
             {
