@@ -2,7 +2,7 @@
 
 @attribute [Authorize]
 
-<PageLayout IsLoading ShowTabs>
+<PageLayout IsLoading="IsLoading" ShowTabs>
     <Header>
         <div class="d-flex flex-row justify-content-center p-3">
             <div class="page-title">
@@ -11,6 +11,44 @@
         </div>
     </Header>
     <Content>
-        Some content
+        <div class="p-3">
+            <div class="calendar">
+                <div class="calendar-header">
+                    <span class="month-picker">@SelectedDate.Year</span>
+                    <div class="year-picker">
+                        <span class="year-change">
+                            &lt;
+                        </span>
+                        <span>@SelectedDate.GetMonthName()</span>
+                        <span class="year-change">
+                            &gt;
+                        </span>
+                    </div>
+                </div>
+                <div class="calendar-body">
+                    <div class="calendar-week-day">
+                        <div>Ïí</div>
+                        <div>Âò</div>
+                        <div>Ñð</div>
+                        <div>×ò</div>
+                        <div>Ïò</div>
+                        <div>Ñá</div>
+                        <div>Âñ</div>
+                    </div>
+                    <div class="calendar-days">
+                        @for (int i = 0; i < SelectedDate.GetDaysUntilNewMonth(); i++)
+                        {
+                            <div />
+                        }
+                        @for (int i = 0; i < DateTime.DaysInMonth(SelectedDate.Year, SelectedDate.Month); i++)
+                        {
+                            <div class="calendar-day-hover">
+                                @(i + 1)
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </Content>
 </PageLayout>

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using QuickActions.Web.Identity.Services;
 using WorkTimer.App.Services;
 using WorkTimer.Common.Models;
-using WorkTimer.Web.Common.Services;
 using Timer = System.Timers.Timer;
 
 namespace WorkTimer.App.Pages
