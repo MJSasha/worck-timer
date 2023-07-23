@@ -43,6 +43,12 @@ namespace WorkTimer.App.Pages
             refreshTimeTimer = new Timer(TimeSpan.FromSeconds(1).TotalMilliseconds);
             refreshTimeTimer.Elapsed += RefreshTimeTimer_Elapsed;
             refreshTimeTimer.AutoReset = false;
+            if (currentPeriod != null)
+            {
+                refreshTimeTimer.Start();
+                TimerIsRunning = true;
+                StateHasChanged();
+            }
         }
 
         private async Task LoadData()
@@ -66,7 +72,7 @@ namespace WorkTimer.App.Pages
             else
             {
                 refreshTimeTimer.Stop();
-                currentPeriod = null;
+                CurrentWorkTime = TimeSpan.Zero;
                 await workPeriodsService.CompletePeriod();
                 await LoadData();
             }
