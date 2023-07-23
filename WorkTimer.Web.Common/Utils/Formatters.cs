@@ -6,5 +6,6 @@ namespace WorkTimer.Web.Common.Utils
     {
         public static string Humanize(this TimeSpan timeSpan) => new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
         public static string Humanize(this DateTime dateTime) => dateTime.ToLocalTime().ToString("d MMMM yyyy HH:mm:ss", CultureInfo.GetCultureInfo("ru-RU"));
+        public static string Humanize(this DateTime? dateTime) => dateTime == null ? "" : dateTime.Humanize();
     }
 }

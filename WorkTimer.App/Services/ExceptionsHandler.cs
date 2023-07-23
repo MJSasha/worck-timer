@@ -27,6 +27,7 @@ namespace WorkTimer.App.Services
                     navigationManager.NavigateTo(Definitons.Pages.Logout.GetUrl());
                 }
             }
+            throw exception;
         }
     }
 }

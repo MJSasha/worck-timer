@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using QuickActions.Web.Identity;
+using QuickActions.Web.Identity.Services;
 using WorkTimer.Common.Data;
 using WorkTimer.Common.Interfaces;
+using WorkTimer.Common.Models;
 
 namespace WorkTimer.App.Pages
 {
@@ -15,6 +17,9 @@ namespace WorkTimer.App.Pages
 
         [Inject]
         protected IUsersIdentity identityService { get; set; }
+
+        [Inject]
+        protected SessionService<User> sessionService { get; set; }
 
         private AuthModel AuthModel { get; set; } = new();
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
@@ -34,6 +39,7 @@ namespace WorkTimer.App.Pages
                 {
                     await sessionCookieService.WriteSessionKey(sessionKey);
                     navigationManager.NavigateTo(Definitons.Pages.Timer.GetUrl(), true);
+                    await sessionService.RefreshSession();
                 }
                 else
                 {

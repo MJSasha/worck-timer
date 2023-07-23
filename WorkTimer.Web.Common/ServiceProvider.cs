@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using QuickActions.Common.Interfaces;
 using Refit;
 using WorkTimer.Common.Interfaces;
@@ -17,10 +18,15 @@ namespace WorkTimer.Web.Common
                     .CreateClient("API"))
                 .AddHttpClient("API", client => client.BaseAddress = new Uri(appSettings.ApiUri)).AddHttpMessageHandler<CookieHandler>();
 
+            var refitSettings = new RefitSettings()
+            {
+                ContentSerializer = new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { NullValueHandling = NullValueHandling.Include })
+            };
+
             services
-                .AddSingleton<IIdentity<User>>(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services)))
-                .AddSingleton(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services)))
-                .AddSingleton(RestService.For<IWorkPeriod>(CreateClient("WorkPeriods", services)));
+                .AddSingleton<IIdentity<User>>(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services), refitSettings))
+                .AddSingleton(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services), refitSettings))
+                .AddSingleton(RestService.For<IWorkPeriod>(CreateClient("WorkPeriods", services), refitSettings));
 
             return services;
         }

@@ -12,7 +12,7 @@ namespace WorkTimer.App.Pages
     public partial class TimerPage : ComponentBase, IDisposable
     {
         [Inject]
-        protected LocalStorageService localStorageService { get; set; }
+        protected WorkPeriodsService workPeriodsService { get; set; }
 
         [Inject]
         protected ExceptionsHandler exceptionsHandler { get; set; }
@@ -22,9 +22,6 @@ namespace WorkTimer.App.Pages
 
         [Inject]
         protected NavigationManager navigationManager { get; set; }
-
-        //[Inject]
-        //protected IBackgroundService backgroundService { get; set; }
 
         private TimeSpan CurrentWorkTime { get; set; }
         private List<WorkPeriod> TodayPeriods { get; set; }
@@ -51,8 +48,8 @@ namespace WorkTimer.App.Pages
         {
             IsLoading = true;
 
-            CurrentWorkTime = new();
-            TodayPeriods = await localStorageService.ReadPeriods(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(1));
+            currentPeriod = await workPeriodsService.LoadCurrentPeriodOrStartNew();
+            TodayPeriods = await workPeriodsService.LoadPeriods(DateTime.Today);
 
             IsLoading = false;
         }
@@ -63,53 +60,16 @@ namespace WorkTimer.App.Pages
             TimerIsRunning = value;
             if (TimerIsRunning)
             {
-                //backgroundService.StartBackgroundProcess();
-                currentPeriod = new WorkPeriod { StartAt = DateTime.UtcNow };
+                currentPeriod = await workPeriodsService.StartPeriod();
                 refreshTimeTimer.Start();
             }
             else
             {
-                //backgroundService.StopBackgroundProcess();
                 currentPeriod.EndAt = DateTime.UtcNow;
                 refreshTimeTimer.Stop();
-                await localStorageService.WritePeriod(currentPeriod);
+                await workPeriodsService.CompletePeriod();
                 await LoadData();
             }
-        }
-
-        private async Task SyncPeriods()
-        {
-            try
-            {
-                IsLoading = true;
-                await localStorageService.SyncPeriods();
-                await LoadData();
-            }
-            catch (Exception ex)
-            {
-                await exceptionsHandler.Handle(ex);
-            }
-        }
-
-        private async Task LoadPeriods()
-        {
-            try
-            {
-                IsLoading = true;
-                await localStorageService.LoadPeriods();
-                await LoadData();
-            }
-            catch (Exception ex)
-            {
-                await exceptionsHandler.Handle(ex);
-            }
-        }
-
-        private async Task ClearPeriods()
-        {
-            IsLoading = true;
-            await localStorageService.ClearPeriods();
-            await LoadData();
         }
 
         private void RefreshTimeTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

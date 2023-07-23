@@ -5,7 +5,6 @@ using WorkTimer.App.Services;
 using WorkTimer.Common.Models;
 using WorkTimer.Web.Common;
 using WorkTimer.Web.Common.Interfaces;
-using WorkTimer.Web.Common.Services;
 
 namespace WorkTimer.App
 {
@@ -36,18 +35,12 @@ namespace WorkTimer.App
             };
 #endif
 
-#if ANDROID
-            //builder.Services.AddTransient<IBackgroundService, AndroidBackgroundService>();
-#elif IOS
-            //builder.Services.AddTransient<IBackgroundService, IosBackgroundService>();
-#endif
-
             builder.Services
                 .AddSingleton(appSettings);
 
             builder.Services
                 .AddTransient<ExceptionsHandler>()
-                .AddSingleton<LocalStorageService>()
+                .AddSingleton<WorkPeriodsService>()
                 .AddSingleton<IStorageService, StorageService>()
                 .AddSingleton<SessionCookieService>(sp => new SessionStorageService(sp.GetRequiredService<IJSRuntime>(), "session-key", sp.GetRequiredService<IStorageService>()));
 
