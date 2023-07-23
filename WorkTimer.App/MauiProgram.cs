@@ -2,7 +2,6 @@
 using Microsoft.JSInterop;
 using QuickActions.Web.Identity;
 using WorkTimer.App.Services;
-using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
 using WorkTimer.Web.Common;
 using WorkTimer.Web.Common.Interfaces;
@@ -47,8 +46,8 @@ namespace WorkTimer.App
                 .AddSingleton(appSettings);
 
             builder.Services
+                .AddTransient<ExceptionsHandler>()
                 .AddSingleton<LocalStorageService>()
-                .AddSingleton<ExceptionsHandler>()
                 .AddSingleton<IStorageService, StorageService>()
                 .AddSingleton<SessionCookieService>(sp => new SessionStorageService(sp.GetRequiredService<IJSRuntime>(), "session-key", sp.GetRequiredService<IStorageService>()));
 
