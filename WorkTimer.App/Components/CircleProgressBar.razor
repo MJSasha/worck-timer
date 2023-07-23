@@ -1,0 +1,8 @@
+<div class="progress-bar" style="--progress-value: @Value">
+    <progress value="@Value" min="0" max="100" style="visibility:hidden; height:0; width:0;"></progress>
+</div>
+
+@code {
+    [Parameter]
+    public int Value { get; set; }
+}

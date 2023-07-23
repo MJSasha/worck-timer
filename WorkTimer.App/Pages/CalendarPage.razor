@@ -16,11 +16,11 @@
                 <div class="calendar-header">
                     <span class="month-picker">@SelectedDate.Year</span>
                     <div class="year-picker">
-                        <span class="year-change">
+                        <span class="year-change" @onclick="async _=> await AddMonth(-1)">
                             &lt;
                         </span>
                         <span>@SelectedDate.GetMonthName()</span>
-                        <span class="year-change">
+                        <span class="year-change" @onclick="async _=> await AddMonth(1)">
                             &gt;
                         </span>
                     </div>
@@ -43,7 +43,10 @@
                         @for (int i = 0; i < DateTime.DaysInMonth(SelectedDate.Year, SelectedDate.Month); i++)
                         {
                             <div class="calendar-day-hover">
-                                @(i + 1)
+                                <div style="margin-left: .1rem">
+                                    @(i + 1)
+                                </div>
+                                <CircleProgressBar Value="i" />
                             </div>
                         }
                     </div>
