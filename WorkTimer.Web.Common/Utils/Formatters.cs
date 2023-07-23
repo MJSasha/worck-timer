@@ -5,7 +5,7 @@ namespace WorkTimer.Web.Common.Utils
 {
     public static class Formatters
     {
-        public static string Humanize(this TimeSpan timeSpan) => new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
+        public static string Humanize(this TimeSpan timeSpan) => string.Format("{0}:{1}:{2}", (timeSpan.Days * 24 + timeSpan.Hours).ToString("D2"), timeSpan.Minutes.ToString("D2"), timeSpan.Seconds.ToString("D2"));
         public static string Humanize(this DateTime dateTime) => dateTime.ToLocalTime().ToString("d MMMM yyyy HH:mm:ss", CultureInfo.GetCultureInfo("ru-RU"));
         public static string Humanize(this DateTime? dateTime) => dateTime == null ? "" : ((DateTime)dateTime).Humanize();
         public static string HumanizeDate(this DateTime dateTime) => dateTime.ToLocalTime().ToString("d MMMM yyyy", CultureInfo.GetCultureInfo("ru-RU"));

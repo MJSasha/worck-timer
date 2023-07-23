@@ -43,14 +43,14 @@
                         @{
                             for (int i = 0; i < DateTime.DaysInMonth(SelectedDate.Year, SelectedDate.Month); i++)
                             {
-                                int j = i;
-                                <div class="@(SelectedDay.Day == j + 1 && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year ? "selected-date" : "")" style="@(!MonthStatistic.ContainsKey(j + 1) ? "pointer-events: none;" : "")" @onclick="async _ => await ShowDayInfo(j + 1)">
+                                int j = i + 1;
+                                <div class="@(SelectedDay.Day == j && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year ? "selected-date" : "")" style="@(!MonthStatistic.ContainsKey(j) ? "pointer-events: none;" : "")" @onclick="async _ => await ShowDayInfo(j)">
                                     <div style="margin-left: .1rem">
-                                        @(j + 1)
+                                        @(j)
                                     </div>
-                                    @if (MonthStatistic.ContainsKey(j + 1))
+                                    @if (MonthStatistic.ContainsKey(j))
                                     {
-                                        <CircleProgressBar Value="MonthStatistic[j + 1]" Light="SelectedDay.Day == j + 1 && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year" />
+                                        <CircleProgressBar Value="MonthStatistic[j]" Light="SelectedDay.Day == j && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year" />
                                     }
                                 </div>
                             }
@@ -63,7 +63,7 @@
             {
                 <div class="section-title">Периоды за @(new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDay.Day).HumanizeDate())</div>
 
-                <div><b>Всего за день:</b> @(TimeSpan.FromHours((24 * MonthStatistic[SelectedDay.Day]) / 100).Humanize())</div>
+                <div class="d-flex flex-row"><div class="subsection-title">Всего за день:</div> @(TimeSpan.FromHours((24 * MonthStatistic[SelectedDay.Day]) / 100).Humanize())</div>
 
                 <div class="d-flex flex-row justify-content-between">
                     <div>

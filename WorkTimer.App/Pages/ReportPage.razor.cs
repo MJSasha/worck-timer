@@ -11,10 +11,7 @@ namespace WorkTimer.App.Pages
     public partial class ReportPage : ComponentBase
     {
         [Inject]
-        protected IWorkPeriod workPeriods { get; set; }
-
-        [Inject]
-        protected WorkPeriodsService workPeriodsService { get; set; }
+        protected IWorkPeriod workPeriodsService { get; set; }
 
         [Inject]
         protected ExceptionsHandler exceptionsHandler { get; set; }
@@ -42,10 +39,7 @@ namespace WorkTimer.App.Pages
 
             try
             {
-                var startDate = new DateTime(SelectedMonth.Year, SelectedMonth.Month, 1);
-                var endDate = startDate.AddMonths(1).AddDays(-1);
-                WorkPeriods = await workPeriodsService.LoadPeriods(startDate, endDate);
-                MonthStatistic = await workPeriods.GetMonthStatistic(SelectedMonth);
+                MonthStatistic = await workPeriodsService.GetMonthStatistic(SelectedMonth);
             }
             catch (Exception ex)
             {

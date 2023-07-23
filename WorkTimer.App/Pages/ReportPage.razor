@@ -12,35 +12,40 @@
     </Header>
     <Content>
         <div class="spacing-3 p-3">
-            <input class="form-control" type="month" @bind="SelectedMonth" />
+            <input class="form-control" type="month" @bind="SelectedMonth" max="@DateTime.Today.ToString("yyyy-MM")" />
 
-            <div class="section-title">Периоды за </div>
+            <div class="section-title">Часы за @SelectedMonth.GetMonthName() @SelectedMonth.Year</div>
 
-            <div class="d-flex flex-row justify-content-between">
-                <div>
-                    <b>Начало</b>
-                </div>
-                <div>
-                    <b>Конец</b>
-                </div>
-            </div>
+            <div class="d-flex flex-row"><div class="subsection-title">Всего за месяц:</div> @(TimeSpan.FromHours(MonthStatistic.Sum(s => (24 * s.Value) / 100)).Humanize())</div>
 
+            <div class="subsection-title">По дням:</div>
             <div class="separator-horizontal" />
 
-            @foreach (var period in WorkPeriods)
-            {
-                <div class="d-flex flex-row justify-content-between">
-                    <div>
-                        @period.StartAt.Humanize()
-                    </div>
-                    <div>
-                        @period.EndAt.Humanize()
-                    </div>
-                </div>
-
-                @if (WorkPeriods.IndexOf(period) < WorkPeriods.Count - 1)
+            @{
+                for (int i = 0; i < DateTime.DaysInMonth(SelectedMonth.Year, SelectedMonth.Month); i++)
                 {
-                    <div class="separator-horizontal" />
+                    int j = i + 1;
+
+                    <div class="d-flex flex-row justify-content-between">
+                        <div>
+                            @(new DateTime(SelectedMonth.Year, SelectedMonth.Month, j).HumanizeDate())
+                        </div>
+                        <div>
+                            @if (MonthStatistic.ContainsKey(j))
+                            {
+                                @(TimeSpan.FromHours((24 * MonthStatistic[j]) / 100).Humanize())
+                            }
+                            else
+                            {
+                                @:Нет данных
+                            }
+                        </div>
+                    </div>
+
+                    @if (j < DateTime.DaysInMonth(SelectedMonth.Year, SelectedMonth.Month))
+                    {
+                        <div class="separator-horizontal" />
+                    }
                 }
             }
         </div>

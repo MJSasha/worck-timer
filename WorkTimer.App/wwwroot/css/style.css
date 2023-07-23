@@ -18,6 +18,12 @@
     font-weight: bold;
 }
 
+.subsection-title {
+    font-size: 10pt;
+    color: var(--bs-primary);
+    font-weight: bold;
+}
+
 /*Buttons*/
 
 .frame {
