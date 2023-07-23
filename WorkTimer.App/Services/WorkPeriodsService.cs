@@ -44,7 +44,7 @@ namespace WorkTimer.App.Services
             {
                 var currentUser = (await usersIdentityService.Authenticate()).Data;
                 var currentPeriod = await workPeriodService.Read(new Specification<WorkPeriod>(wp => wp.UserId == currentUser.Id && wp.EndAt == null));
-                if (currentUser != null) return;
+                if (currentUser == null) return;
 
                 currentPeriod.EndAt = DateTime.UtcNow;
                 await workPeriodService.Update(currentPeriod);
@@ -55,7 +55,7 @@ namespace WorkTimer.App.Services
             }
         }
 
-        public async Task<WorkPeriod> LoadCurrentPeriodOrStartNew()
+        public async Task<WorkPeriod> LoadCurrentPeriod()
         {
             WorkPeriod period = null;
             try
@@ -67,7 +67,7 @@ namespace WorkTimer.App.Services
             {
                 await exceptionsHandler.Handle(ex);
             }
-            return period ?? await StartPeriod();
+            return period;
         }
 
         public async Task<List<WorkPeriod>> LoadPeriods(DateTime startAfter, DateTime? endBefore = null)

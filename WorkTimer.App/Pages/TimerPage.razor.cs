@@ -24,7 +24,7 @@ namespace WorkTimer.App.Pages
         protected NavigationManager navigationManager { get; set; }
 
         private TimeSpan CurrentWorkTime { get; set; }
-        private List<WorkPeriod> TodayPeriods { get; set; }
+        private List<WorkPeriod> TodayPeriods { get; set; } = new();
 
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
         private bool TimerIsRunning { get; set; }
@@ -37,6 +37,7 @@ namespace WorkTimer.App.Pages
         {
             await base.OnInitializedAsync();
 
+            currentPeriod = await workPeriodsService.LoadCurrentPeriod();
             await LoadData();
 
             refreshTimeTimer = new Timer(TimeSpan.FromSeconds(1).TotalMilliseconds);
@@ -48,7 +49,6 @@ namespace WorkTimer.App.Pages
         {
             IsLoading = true;
 
-            currentPeriod = await workPeriodsService.LoadCurrentPeriodOrStartNew();
             TodayPeriods = await workPeriodsService.LoadPeriods(DateTime.Today);
 
             IsLoading = false;
@@ -65,8 +65,8 @@ namespace WorkTimer.App.Pages
             }
             else
             {
-                currentPeriod.EndAt = DateTime.UtcNow;
                 refreshTimeTimer.Stop();
+                currentPeriod = null;
                 await workPeriodsService.CompletePeriod();
                 await LoadData();
             }
