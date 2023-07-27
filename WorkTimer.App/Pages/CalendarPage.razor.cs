@@ -58,7 +58,7 @@ namespace WorkTimer.App.Pages
             {
                 // TODO - add current user to filter
                 var selectedDate = new DateTime(SelectedDate.Year, SelectedDate.Month, dayNumber).Date;
-                DayPeriods = await workPeriodService.Read(new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate && sp.EndAt < selectedDate.AddDays(1)), 0, int.MaxValue);
+                DayPeriods = await workPeriodService.Read(new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.EndAt < selectedDate.AddDays(1).ToUniversalTime()), 0, int.MaxValue);
                 if (DayPeriods == null || !DayPeriods.Any())
                 {
                     IsLoading = false;

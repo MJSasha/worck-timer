@@ -27,7 +27,7 @@ namespace WorkTimer.Api.Controllers
         public async Task<Dictionary<int, double>> GetMonthStatistic(DateTime monthDateTime)
         {
             var currentUser = sessionsService.ReadSession().Data;
-            var startDate = new DateTime(monthDateTime.Year, monthDateTime.Month, 1);
+            var startDate = new DateTime(monthDateTime.Year, monthDateTime.Month, 1).ToUniversalTime();
             var endDate = startDate.AddMonths(1).AddDays(-1);
 
             var periodsFilter = new Specification<WorkPeriod>(wp => wp.StartAt >= startDate.Date && wp.EndAt <= endDate.Date && wp.EndAt != null && wp.UserId == currentUser.Id);

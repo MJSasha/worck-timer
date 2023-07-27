@@ -75,8 +75,8 @@ namespace WorkTimer.App.Services
             try
             {
                 var currentUser = (await usersIdentityService.Authenticate()).Data;
-                if (endBefore != null) return await workPeriodService.Read(new Specification<WorkPeriod>(wp => wp.StartAt >= startAfter && wp.EndAt <= endBefore && wp.UserId == currentUser.Id), 0, int.MaxValue);
-                else return await workPeriodService.Read(new Specification<WorkPeriod>(wp => wp.StartAt >= startAfter && wp.EndAt != null && wp.UserId == currentUser.Id), 0, int.MaxValue);
+                if (endBefore != null) return await workPeriodService.Read(new Specification<WorkPeriod>(wp => wp.StartAt >= startAfter.ToUniversalTime() && wp.EndAt <= ((DateTime)endBefore).ToUniversalTime() && wp.UserId == currentUser.Id), 0, int.MaxValue);
+                else return await workPeriodService.Read(new Specification<WorkPeriod>(wp => wp.StartAt >= startAfter.ToUniversalTime() && wp.EndAt != null && wp.UserId == currentUser.Id), 0, int.MaxValue);
 
             }
             catch (Exception ex)
