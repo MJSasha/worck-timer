@@ -28,7 +28,7 @@ namespace WorkTimer.Api.Controllers
         {
             var currentUser = sessionsService.ReadSession().Data;
             var startDate = new DateTime(monthDateTime.Year, monthDateTime.Month, 1).ToUniversalTime();
-            var endDate = startDate.AddMonths(1).AddDays(-1);
+            var endDate = startDate.AddMonths(1);
 
             var periodsFilter = new Specification<WorkPeriod>(wp => wp.StartAt >= startDate.Date && wp.EndAt <= endDate.Date && wp.EndAt != null && wp.UserId == currentUser.Id);
             var periods = await workPeriodRepository.Read(periodsFilter, 0, int.MaxValue);

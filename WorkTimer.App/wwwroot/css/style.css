@@ -1,3 +1,7 @@
+:root {
+    --shadow: 0px 1px 3px 0px var(--bs-gray-500);
+}
+
 /*Texts*/
 
 .page-title {
@@ -27,11 +31,11 @@
 /*Buttons*/
 
 .frame {
-    border-radius: 0.5rem;
+    border-radius: .1rem;
     padding: 0.8rem;
     align-items: flex-start;
     background-color: var(--bs-white);
-    box-shadow: 0px 1px 3px 0px var(--bs-gray-500);
+    box-shadow: var(--shadow);
 }
 
 .btn-round {

@@ -45,6 +45,7 @@ namespace WorkTimer.App.Pages
             refreshTimeTimer.AutoReset = false;
             if (currentPeriod != null)
             {
+                CurrentWorkTime = DateTime.UtcNow.Subtract(currentPeriod.StartAt);
                 refreshTimeTimer.Start();
                 TimerIsRunning = true;
                 StateHasChanged();

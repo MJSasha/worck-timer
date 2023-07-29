@@ -1,7 +1,6 @@
 .calendar {
     width: 100%;
     height: max-content;
-    border-radius: 30px;
     position: relative;
     overflow: hidden;
 }
