@@ -38,8 +38,8 @@ namespace WorkTimer.App.Pages
                 if (!string.IsNullOrWhiteSpace(sessionKey))
                 {
                     await sessionCookieService.WriteSessionKey(sessionKey);
-                    navigationManager.NavigateTo(Definitons.Pages.Timer.GetUrl(), true);
                     await sessionService.RefreshSession();
+                    navigationManager.NavigateTo(Definitons.Pages.Timer.GetUrl(), true);
                 }
                 else
                 {

@@ -1,53 +1,50 @@
-﻿<div class="page-container d-flex flex-column h-100">
+﻿@using QuickActions.Common.Data;
+@using WorkTimer.Common.Definitions;
+@using WorkTimer.Common.Models;
+
+<PageTitle>@PageTitle</PageTitle>
+
+<div class="page-container d-flex flex-column h-100">
     @if (!HideNavbar)
     {
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Navbar</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+            <a class="navbar-brand" href="#">Work Timer</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="#">Информация</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
+                            Для сотрудников
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="#">Календарь</a>
+                            <a class="dropdown-item" href="#">Моя статистика</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
+                    @if (CurrentUser?.Role == UserRole.Admin)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Для администраторов
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Сотрудники</a>
+                                <a class="dropdown-item" href="@Pages.Statistic.GetUrl()">Статистика</a>
+                                <a class="dropdown-item" href="#">Отчеты</a>
+                            </div>
+                        </li>
+                    }
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+
+                <a class="nav-link ms-auto" href="@Pages.Logout.GetUrl()">Выйти</a>
             </div>
         </nav>
-    }
-    @if (Header != null)
-    {
-        <div class="page-header">
-            @Header
-        </div>
-    }
-    @if (Subheader != null)
-    {
-        <div style="background-color: var(--bs-light);">
-            @Subheader
-        </div>
     }
     @if (!IsLoading)
     {
@@ -64,11 +61,8 @@
 
 @code {
 
-    [Parameter]
-    public RenderFragment Header { get; set; }
-
-    [Parameter]
-    public RenderFragment Subheader { get; set; }
+    [CascadingParameter]
+    public Session<User> CurrentSession { get; set; }
 
     [Parameter]
     public RenderFragment Content { get; set; }
@@ -86,8 +80,7 @@
     public bool IsLoading { get; set; }
 
     [Parameter]
-    public EventCallback<MouseEventArgs> OnBackButtonClick { get; set; }
+    public string PageTitle { get; set; }
 
-    [Parameter]
-    public string Title { get; set; }
+    private User CurrentUser => CurrentSession?.Data;
 }

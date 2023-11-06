@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using QuickActions.Common.Data;
 using QuickActions.Common.Specifications;
 using WorkTimer.App.Services;
 using WorkTimer.Common.Interfaces;
@@ -10,6 +11,9 @@ namespace WorkTimer.App.Pages
     [Authorize]
     public partial class CalendarPage : ComponentBase
     {
+        [CascadingParameter]
+        public Session<User> CurrentSession { get; set; }
+
         [Inject]
         protected ExceptionsHandler exceptionsHandler { get; set; }
 
@@ -56,9 +60,11 @@ namespace WorkTimer.App.Pages
 
             try
             {
-                // TODO - add current user to filter
                 var selectedDate = new DateTime(SelectedDate.Year, SelectedDate.Month, dayNumber).Date;
-                DayPeriods = await workPeriodService.Read(new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.EndAt < selectedDate.AddDays(1).ToUniversalTime()), 0, int.MaxValue);
+                var filter = new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.EndAt < selectedDate.AddDays(1).ToUniversalTime());
+                filter &= new Specification<WorkPeriod>(sp => sp.UserId == CurrentSession.Data.Id);
+
+                DayPeriods = await workPeriodService.Read(filter, 0, int.MaxValue);
                 if (DayPeriods == null || !DayPeriods.Any())
                 {
                     IsLoading = false;
