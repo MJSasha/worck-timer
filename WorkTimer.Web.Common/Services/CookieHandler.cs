@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using QuickActions.Web.Identity;
+﻿using QuickActions.Web.Identity;
 
 namespace WorkTimer.Web.Common.Services
 {
@@ -15,7 +14,7 @@ namespace WorkTimer.Web.Common.Services
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var sessionKey = await sessionCookieService.ReadSessionKey();
-            request.Headers.Add("Cookie", $"session-key={sessionKey}");
+            if (!string.IsNullOrWhiteSpace(sessionKey)) request.Headers.Add("Authorization", $"{sessionKey}");
             return await base.SendAsync(request, cancellationToken);
         }
     }

@@ -19,7 +19,8 @@
 }
 
 .calendar-week-day {
-    height: 50px;
+    height: 45px;
+    width: 45px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     font-weight: 600;

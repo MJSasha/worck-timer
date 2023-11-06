@@ -1,4 +1,13 @@
-﻿@using WorkTimer.Common.Interfaces;
-@using WorkTimer.Common.Models;
+﻿@page "/"
 
-@page "/"
+@code {
+    [Inject]
+    NavigationManager navigationManager { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        navigationManager.NavigateTo(Pages.Statistic.GetUrl());
+    }
+}

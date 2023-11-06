@@ -1,6 +1,8 @@
 using BlazorModalDialogs;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using QuickActions.Web.Identity;
+using WorkTimer.Common.Models;
 using WorkTimer.Web;
 using WorkTimer.Web.Common;
 
@@ -13,7 +15,8 @@ var appSettings = builder.Configuration.GetSection("AppSettings")?.Get<AppSettin
 builder.Services
     .AddSingleton(appSettings);
 
-builder.Services.AddModalDialogs();
-builder.Services.ProvideCommonServices(appSettings);
+builder.Services.AddModalDialogs()
+                .AddIdentity<User>("session-key")
+                .ProvideCommonServices(appSettings);
 
 await builder.Build().RunAsync();

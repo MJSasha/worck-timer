@@ -1,0 +1,9 @@
+﻿<svg @attributes="AdditionalAttributes"><use href="@Src" xlink:href="@Src"></use></svg>
+
+@code {
+    [Parameter]
+    public string Src { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
+}

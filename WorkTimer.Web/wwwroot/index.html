@@ -8,12 +8,17 @@
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
     <link href="WorkTimer.Web.styles.css" rel="stylesheet" />
     <link href="_content/BlazorModalDialogs/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <div class="h-100">
+            <div class="spinner-grow text-primary form-loading" />
+        </div>
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
@@ -22,6 +27,7 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script href="_content/QuickActions.Web.Identity/scripts.js"></script>
+    <script src="_content/QuickActions.Web.Identity/js/scripts.js"></script>
 </body>
 
 </html>

@@ -1,14 +1,21 @@
-﻿@inherits LayoutComponentBase
+﻿@using QuickActions.Web.Identity.Components
+@using WorkTimer.Common.Models;
+@using WorkTimer.Web.Pages
 
-<div class="page">
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+@inherits LayoutComponentBase
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<AuthorizationLayout TSession="User">
+	<Authorized>
+		<div class="page">
+			<main>
+				<article class="content">
+					@Body
+				</article>
+			</main>
+		</div>
+	</Authorized>
+	<NotAuthorized>
+		<LoginPage />
+	</NotAuthorized>
+</AuthorizationLayout>
 <DialogProvider />
