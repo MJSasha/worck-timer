@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuickActions.Api.Identity.Controllers;
-using QuickActions.Api.Identity.IdentityCheck;
 using QuickActions.Api.Identity.Services;
 using QuickActions.Common.Data;
 using QuickActions.Common.Specifications;

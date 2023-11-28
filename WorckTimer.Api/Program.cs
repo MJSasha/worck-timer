@@ -18,9 +18,13 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#if DEBUG
+builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(databaseName: "TestDatabase"));
+#else
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))),
     contextLifetime: ServiceLifetime.Transient);
+#endif
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentity<User>("session-key", rolesChecker: (s, r) => r.Contains(s.Data.Role.ToString()));
@@ -34,7 +38,11 @@ var app = builder.Build();
 using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
     var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+#if DEBUG
+    context.Database.EnsureCreated();
+#else
     context.Database.Migrate();
+#endif
 }
 
 
