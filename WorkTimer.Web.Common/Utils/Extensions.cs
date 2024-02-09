@@ -4,9 +4,11 @@
     {
         public static int GetDaysUntilNewMonth(this DateTime date)
         {
-            DateTime lastDayOfMonth = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
-            DayOfWeek lastDayOfWeek = lastDayOfMonth.DayOfWeek;
-            return (DayOfWeek.Saturday - lastDayOfWeek + 7) % 7;
+            DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            DayOfWeek firstDayOfWeek = firstDayOfMonth.DayOfWeek;
+            int daysUntilNewMonth = ((int)DayOfWeek.Monday - (int)firstDayOfWeek + 7) % 7;
+            if (daysUntilNewMonth == 0) return 0;
+            else return 7 - daysUntilNewMonth;
         }
     }
 }

@@ -18,12 +18,10 @@ namespace WorkTimer.Api.Controllers
     [Route("[controller]")]
     public class UsersIdentityController : IdentityController<User>, IUsersIdentity
     {
-        private readonly SessionsService<User> sessionsService;
         private readonly UsersRepository usersRepository;
 
         public UsersIdentityController(SessionsService<User> sessionsService, UsersRepository usersRepository) : base(sessionsService)
         {
-            this.sessionsService = sessionsService;
             this.usersRepository = usersRepository;
         }
 

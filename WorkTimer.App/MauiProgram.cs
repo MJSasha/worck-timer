@@ -27,7 +27,7 @@ namespace WorkTimer.App
             builder.Services.AddBlazorWebViewDeveloperTools();
             var appSettings = new AppSettings
             {
-                ApiUri = "http://192.168.1.57:8080"
+                ApiUri = "http://192.168.1.56:8080"
             };
 
 #elif RELEASE

@@ -187,3 +187,8 @@
     color: var(--bs-white);
     border-radius: 50%;
 }
+
+.progress-bar-container {
+    height: 10px;
+    width: 10px;
+}
