@@ -31,5 +31,15 @@
                 return pageUrl;
             }
         }
+
+        public static class Users
+        {
+            private static string pageUrl = "/users";
+
+            public static string GetUrl()
+            {
+                return pageUrl;
+            }
+        }
     }
 }

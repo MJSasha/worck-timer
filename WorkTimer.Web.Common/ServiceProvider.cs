@@ -26,6 +26,7 @@ namespace WorkTimer.Web.Common
             services
                 .AddSingleton<IIdentity<User>>(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services), refitSettings))
                 .AddSingleton(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services), refitSettings))
+                .AddSingleton(RestService.For<IUsers>(CreateClient("Users", services), refitSettings))
                 .AddSingleton(RestService.For<IWorkPeriod>(CreateClient("WorkPeriods", services), refitSettings));
 
             return services;
