@@ -8,7 +8,10 @@
     @if (!HideNavbar)
     {
         <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
-            <a class="navbar-brand" href="#">Work Timer</a>
+            <a class="navbar-brand" href="#">
+                <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Timer" />
+                Work Timer
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -16,33 +19,39 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Информация</a>
+                        <a class="nav-link" href="@Pages.Information.GetUrl()">Информация</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Для сотрудников
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Календарь</a>
-                            <a class="dropdown-item" href="#">Моя статистика</a>
+                            <a class="dropdown-item" href="@Pages.Calendar.GetUrl()">Календарь</a>
+                            <a class="dropdown-item" href="@Pages.UserStatistic.GetUrl()">Моя статистика</a>
                         </div>
                     </li>
                     @if (CurrentUser?.Role == UserRole.Admin)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Для администраторов
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="@Pages.Users.GetUrl()">Сотрудники</a>
                                 <a class="dropdown-item" href="@Pages.Statistic.GetUrl()">Статистика</a>
-                                <a class="dropdown-item" href="#">Отчеты</a>
+                                <a class="dropdown-item" href="@Pages.Reports.GetUrl()">Отчеты</a>
                             </div>
                         </li>
                     }
                 </ul>
 
-                <a class="nav-link ms-auto" href="@Pages.Logout.GetUrl()">Выйти</a>
+                <MudButton Href="@Pages.Logout.GetUrl()"
+                           Class="ms-auto"
+                           Variant="Variant.Text"
+                           EndIcon="@Icons.Material.Filled.ExitToApp"
+                           Color="Color.Secondary">
+                    Выйти
+                </MudButton>
             </div>
         </nav>
     }

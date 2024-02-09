@@ -1,13 +1,21 @@
-﻿@page "/"
+﻿@using QuickActions.Common.Data
+@using WorkTimer.Common.Definitions
+@using WorkTimer.Common.Models
+
+@page "/"
 
 @code {
+
     [Inject]
     NavigationManager navigationManager { get; set; }
+
+    [CascadingParameter]
+    public Session<User> CurrentSession { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        navigationManager.NavigateTo(Pages.Statistic.GetUrl());
+        navigationManager.NavigateTo(CurrentSession.Data.Role == UserRole.Admin ? Pages.Users.GetUrl() : Pages.Calendar.GetUrl());
     }
 }

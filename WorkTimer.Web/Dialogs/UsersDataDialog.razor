@@ -78,10 +78,10 @@
         if (dateRange.Start == null || dateRange.End == null) return;
 
         workPeriods = await WorkPeriodsService.Read(
-            new Specification<WorkPeriod>(p => p.StartAt >= dateRange.Start.Value.ToUniversalTime()
-                && p.EndAt <= dateRange.End.Value.ToUniversalTime()
-                && p.UserId == Params.Id
-                && p.EndAt != null),
+            new Specification<WorkPeriod>(p => p.EndAt != null
+                && p.StartAt.Date >= dateRange.Start.Value.ToUniversalTime().Date
+                && p.EndAt.Value.Date < dateRange.End.Value.ToUniversalTime().Date
+                && p.UserId == Params.Id),
             0,
             int.MaxValue
         );

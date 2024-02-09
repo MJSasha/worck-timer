@@ -41,5 +41,45 @@
                 return pageUrl;
             }
         }
+
+        public static class Calendar
+        {
+            private static string pageUrl = "/calindar";
+
+            public static string GetUrl()
+            {
+                return pageUrl;
+            }
+        }
+
+        public static class UserStatistic
+        {
+            private static string pageUrl = "/userStatistic";
+
+            public static string GetUrl()
+            {
+                return pageUrl;
+            }
+        }
+
+        public static class Reports
+        {
+            private static string pageUrl = "/reports";
+
+            public static string GetUrl()
+            {
+                return pageUrl;
+            }
+        }
+
+        public static class Information
+        {
+            private static string pageUrl = "/information";
+
+            public static string GetUrl()
+            {
+                return pageUrl;
+            }
+        }
     }
 }
