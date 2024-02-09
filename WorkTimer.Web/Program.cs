@@ -1,4 +1,6 @@
 using BlazorModalDialogs;
+using BlazorModalDialogs.Dialogs.InputDialog;
+using BlazorModalDialogs.Dialogs.MessageDialog;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
@@ -6,6 +8,7 @@ using QuickActions.Web.Identity;
 using WorkTimer.Common.Models;
 using WorkTimer.Web;
 using WorkTimer.Web.Common;
+using WorkTimer.Web.Dialogs;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -17,7 +20,7 @@ builder.Services
     .AddSingleton(appSettings);
 
 builder.Services.AddMudServices();
-builder.Services.AddModalDialogs()
+builder.Services.AddModalDialogs(typeof(InputDialog), typeof(MessageDialog), typeof(UsersDataDialog))
                 .AddIdentity<User>("session-key")
                 .ProvideCommonServices(appSettings);
 

@@ -1,6 +1,7 @@
 ﻿@using QuickActions.Common.Specifications
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
+@using WorkTimer.Web.Dialogs
 
 @page "/users"
 
@@ -9,7 +10,7 @@
 <PageLayout PageTitle="Статистика">
     <Content>
         <div class="d-flex justify-content-center w-100 p-3">
-            <MudTable Hover Striped Style="min-width: 60%" Items="@Users" Filter="new Func<User,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem">
+            <MudTable Hover Striped Style="min-width: 60%" Items="@Users" OnRowClick="new EventCallback<TableRowClickEventArgs<User>>(this, RowClickEvent)" Filter="new Func<User,bool>(FilterUsers)">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Пользователи</MudText>
                     <MudSpacer />
@@ -19,11 +20,13 @@
                     <MudTh>Имя</MudTh>
                     <MudTh>Почта</MudTh>
                     <MudTh>Роль</MudTh>
+                    <MudTh>Оклад</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Имя">@context.Name</MudTd>
                     <MudTd DataLabel="Почта">@context.Email</MudTd>
                     <MudTd DataLabel="Роль">@context.Role</MudTd>
+                    <MudTd DataLabel="Роль">@context.Salary</MudTd>
                 </RowTemplate>
                 <PagerContent>
                     <MudTablePager />
@@ -38,8 +41,10 @@
     [Inject]
     public IUsers UsersService { get; set; }
 
+    [Inject]
+    public DialogsService DialogsService { get; set; }
+
     private string searchString = "";
-    private User selectedItem = null;
     private HashSet<User> selectedItems = new HashSet<User>();
 
     private List<User> Users = new List<User>();
@@ -49,13 +54,27 @@
         Users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
     }
 
-    private bool FilterFunc1(User element) => FilterFunc(element, searchString);
+    private bool FilterUsers(User element) => FilterUsers(element, searchString);
 
-    private bool FilterFunc(User element, string searchString)
+    private bool FilterUsers(User element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString)) return true;
         if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
         if (element.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
         return false;
+    }
+
+    private Task RowClickEvent(TableRowClickEventArgs<User> tableRowClickEventArgs)
+    {
+        return ShowUserInfo(tableRowClickEventArgs.Item);
+    }
+
+    private async Task ShowUserInfo(User user)
+    {
+        try
+        {
+            await DialogsService.Show<UsersDataDialog, User, object>(user);
+        }
+        catch (ObjectDisposedException) { /* ignore */ }
     }
 }

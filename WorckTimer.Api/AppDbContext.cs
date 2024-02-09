@@ -13,7 +13,7 @@ namespace WorkTimer.Api
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, Email = "admin", Password = "admin", Role = UserRole.Admin, Name = "admin" });
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, Email = "admin", Password = "admin", Role = UserRole.Admin, Name = "admin", Salary = 150000 });
 
             base.OnModelCreating(modelBuilder);
         }

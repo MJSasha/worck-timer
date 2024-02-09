@@ -1,0 +1,140 @@
+﻿@using BlazorModalDialogs.Definitions
+@using QuickActions.Common.Specifications
+@using WorkTimer.Common.Interfaces
+@using WorkTimer.Common.Models
+@using WorkTimer.Web.Common.Utils
+
+@inherits Dialog<User, object>
+
+<DialogLayout IsDisplayed="IsDisplayed">
+    <Modal ModalSize="ModalSize.Large" Title="Пользователь" OnClose="() => this.Cancel()" DispalyCenter OnKeyEnterPressed="OnKeyEnterPressed">
+        <Content>
+            <MudGrid>
+                <MudItem xs="4">
+                    <MudForm ReadOnly>
+                        <MudTextField Variant="Variant.Filled" T="string" Label="Имя" Value="Params.Name" />
+                        <MudTextField Variant="Variant.Filled" T="string" Label="Логин" Value="Params.Email" />
+                        <MudTextField Variant="Variant.Filled" T="string" Label="Роль" Value="Params.Role.ToString()" />
+                        <MudNumericField Variant="Variant.Filled" T="decimal" Label="Оклад" Value="Params.Salary" />
+                        @if (workPeriods != null)
+                        {
+                            <MudDivider Class="my-3" />
+                            <MudTextField Variant="Variant.Filled" T="string" Label="Время работы" Value="workDuration.Humanize()" />
+                            <MudNumericField Variant="Variant.Filled" T="decimal" Format="N2" decimal Label="Оплата за период" Value="durationSalary" />
+                        }
+                    </MudForm>
+                </MudItem>
+                <MudItem xs="8">
+                    <MudDateRangePicker Variant="Variant.Outlined" Required @bind-DateRange="dateRange" PlaceholderStart="Начало" PlaceholderEnd="Конец" />
+                    <MudButton Class="mt-3 w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="LoadPeriodsData">Отобразить</MudButton>
+                    @if (workPeriods != null)
+                    {
+                        <MudTable Dense Class="mt-3 overflow-auto" Style="max-height: 16rem" Items="workPeriods">
+                            <HeaderContent>
+                                <MudTh>Начало</MudTh>
+                                <MudTh>Конец</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="Начало">@context.StartAt.Humanize()</MudTd>
+                                <MudTd DataLabel="Конец">@context.EndAt.Humanize()</MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    }
+                </MudItem>
+            </MudGrid>
+        </Content>
+        <Footer>
+            <div class="mt-3">
+                <ModalButton class="btn-outline-danger" OnClick="() => this.Cancel()">Закрыть</ModalButton>
+            </div>
+        </Footer>
+    </Modal>
+</DialogLayout>
+
+@code {
+
+    [Inject]
+    public IWorkPeriod WorkPeriodsService { get; set; }
+
+    private DateRange dateRange;
+    private List<WorkPeriod> workPeriods;
+    private TimeSpan workDuration = new();
+    private decimal durationSalary;
+
+    protected override void OnAfterShow()
+    {
+        dateRange = new DateRange();
+        workPeriods = null;
+        StateHasChanged();
+    }
+
+    protected void OnKeyEnterPressed()
+    {
+        this.Cancel();
+    }
+
+    private async Task LoadPeriodsData()
+    {
+        if (dateRange.Start == null || dateRange.End == null) return;
+
+        workPeriods = await WorkPeriodsService.Read(
+            new Specification<WorkPeriod>(p => p.StartAt >= dateRange.Start.Value.ToUniversalTime()
+                && p.EndAt <= dateRange.End.Value.ToUniversalTime()
+                && p.UserId == Params.Id
+                && p.EndAt != null),
+            0,
+            int.MaxValue
+        );
+
+        workDuration = new();
+        foreach (var period in workPeriods.Select(p => p.EndAt.Value - p.StartAt))
+        {
+            workDuration += period;
+        }
+
+        durationSalary = CalculateTotalSalary(workPeriods);
+
+        StateHasChanged();
+    }
+
+    // TODO - move to back
+    private decimal CalculateTotalSalary(IEnumerable<WorkPeriod> workPeriods)
+    {
+        decimal totalSalary = 0;
+
+        foreach (var period in workPeriods)
+        {
+            if (period == null) continue;
+            int totalWorkHoursInMonth = CalculateWorkDaysInMonth(period) * 8;
+            var totalWorkHoursInPeriod = (decimal)(period.EndAt.Value - period.StartAt).TotalHours;
+            totalSalary += (totalWorkHoursInPeriod * Params.Salary) / totalWorkHoursInMonth;
+        }
+
+        return totalSalary;
+    }
+
+
+    private decimal CalculateWorkHours(WorkPeriod workPeriod)
+    {
+        return (decimal)(workPeriod.EndAt.Value - workPeriod.StartAt).TotalHours;
+    }
+
+    private int CalculateWorkDaysInMonth(WorkPeriod workPeriod)
+    {
+        int workDays = 0;
+        DateTime currentDate = new DateTime(workPeriod.StartAt.Year, workPeriod.StartAt.Month, 1);
+        DateTime endOfMonth = new DateTime(workPeriod.StartAt.Year, workPeriod.StartAt.Month, DateTime.DaysInMonth(workPeriod.StartAt.Year, workPeriod.StartAt.Month));
+
+        while (currentDate <= endOfMonth && currentDate <= workPeriod.EndAt)
+        {
+            if (currentDate.DayOfWeek != DayOfWeek.Saturday && currentDate.DayOfWeek != DayOfWeek.Sunday)
+            {
+                workDays++;
+            }
+
+            currentDate = currentDate.AddDays(1);
+        }
+
+        return workDays;
+    }
+}
