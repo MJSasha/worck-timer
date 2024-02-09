@@ -16,8 +16,7 @@ namespace WorkTimer.App.Pages
         [Inject]
         protected ExceptionsHandler exceptionsHandler { get; set; }
 
-        private DateTime SelectedMonth { get => selectedMonth; set { selectedMonth = value; LoadData(); } }
-        private List<WorkPeriod> WorkPeriods { get; set; }
+        private DateTime SelectedMonth { get => selectedMonth;set { selectedMonth = value; LoadData(); } }
         private Dictionary<int, double> MonthStatistic { get; set; }
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
 
