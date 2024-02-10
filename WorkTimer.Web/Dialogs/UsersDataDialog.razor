@@ -16,7 +16,7 @@
                         <MudTextField Variant="Variant.Filled" T="string" Label="Имя" Value="Params.Name" />
                         <MudTextField Variant="Variant.Filled" T="string" Label="Логин" Value="Params.Email" />
                         <MudTextField Variant="Variant.Filled" T="string" Label="Роль" Value="Params.Role.ToString()" />
-                        <MudNumericField Variant="Variant.Filled" T="decimal" Label="Оклад" Value="Params.Salary" />
+                        <MudNumericField Format="N2" Variant="Variant.Filled" T="decimal" Label="Оклад" Value="Params.Salary" />
                         @if (workPeriods != null)
                         {
                             <MudDivider Class="my-3" />

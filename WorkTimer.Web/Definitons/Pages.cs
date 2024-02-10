@@ -44,7 +44,7 @@
 
         public static class Calendar
         {
-            private static string pageUrl = "/calindar";
+            private static string pageUrl = "/calendar";
 
             public static string GetUrl()
             {

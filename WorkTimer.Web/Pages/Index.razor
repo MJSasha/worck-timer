@@ -9,13 +9,10 @@
     [Inject]
     NavigationManager navigationManager { get; set; }
 
-    [CascadingParameter]
-    public Session<User> CurrentSession { get; set; }
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        navigationManager.NavigateTo(CurrentSession.Data.Role == UserRole.Admin ? Pages.Users.GetUrl() : Pages.Calendar.GetUrl());
+        navigationManager.NavigateTo(Pages.Calendar.GetUrl());
     }
 }

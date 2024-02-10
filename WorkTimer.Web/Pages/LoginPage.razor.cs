@@ -2,6 +2,7 @@
 using QuickActions.Web.Identity;
 using QuickActions.Web.Identity.Services;
 using WorkTimer.Common.Data;
+using WorkTimer.Common.Definitions;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
 
@@ -39,7 +40,7 @@ namespace WorkTimer.Web.Pages
                 {
                     await sessionCookieService.WriteSessionKey(sessionKey);
                     await sessionService.RefreshSession();
-                    navigationManager.NavigateTo(Definitons.Pages.Statistic.GetUrl(), true);
+                    navigationManager.NavigateTo(sessionService.SessionData.Data.Role == UserRole.Admin ? Definitons.Pages.Users.GetUrl() : Definitons.Pages.Calendar.GetUrl(), true);
                 }
                 else
                 {
