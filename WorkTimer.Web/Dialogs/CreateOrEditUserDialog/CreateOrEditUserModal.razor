@@ -19,9 +19,9 @@
                          <MudTextField Required Label="Почта" Class="mt-3" @bind-Value="Params.User.Email" For="@(() => Params.User.Email)" />
                          <MudTextField Required Label="Пароль" Class="mt-3" @bind-Value="Params.User.Password" For="@(() => Params.User.Password)" InputType="InputType.Password" />
                          <MudSelect T="UserRole" Required @bind-Value="Params.User.Role" Label="Роль" For="@(() => Params.User.Role)">
-                            @foreach (var item in Enum.GetValues(typeof(UserRole)))
+                             @foreach (UserRole item in Enum.GetValues(typeof(UserRole)))
                             {
-                                <MudSelectItem Value="@item" />
+                                <MudSelectItem Value="@item" Text="@item.ToString()" />
                             }
                         </MudSelect>
                         <MudNumericField Format="N2" Class="mt-3" Required Label="Оклад" @bind-Value="Params.User.Salary" For="@(() => Params.User.Salary)" />
