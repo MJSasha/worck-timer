@@ -1,4 +1,5 @@
-﻿@using QuickActions.Common.Specifications
+﻿@using QuickActions.Common.Data
+@using QuickActions.Common.Specifications
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
 @using WorkTimer.Web.Dialogs
@@ -22,12 +23,19 @@
                     <MudTh>Почта</MudTh>
                     <MudTh>Роль</MudTh>
                     <MudTh>Оклад</MudTh>
+                    <MudTh></MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Имя">@context.Name</MudTd>
                     <MudTd DataLabel="Почта">@context.Email</MudTd>
                     <MudTd DataLabel="Роль">@context.Role</MudTd>
                     <MudTd DataLabel="Роль">@context.Salary</MudTd>
+                    <MudTd Style="text-align:right">
+                        @if (CurrentSession.Data.Id != context.Id)
+                        {
+                            <MudIconButton OnClick="() => UpdateUser(context)" Icon="@Icons.Material.Filled.Edit" Color="Color.Secondary" Size="Size.Small" />
+                        }
+                    </MudTd>
                 </RowTemplate>
                 <PagerContent>
                     <MudTablePager />
@@ -39,6 +47,9 @@
 </PageLayout>
 
     @code {
+
+    [CascadingParameter]
+    public Session<User> CurrentSession { get; set; }
 
     [Inject]
     public IUsers UsersService { get; set; }
@@ -90,6 +101,22 @@
             });
 
             await UsersService.Create(user);
+            await LoadUsersInfo();
+        }
+        catch (ObjectDisposedException) { /* ignore */ }
+    }
+
+    private async Task UpdateUser(User user)
+    {
+        try
+        {
+            var userToUpdate = await DialogsService.Show<CreateOrEditUserModal, CreateOrEditUserDialogParams, User>(new CreateOrEditUserDialogParams
+            {
+                User = user,
+                EditMode = true
+            });
+
+            await UsersService.Update(userToUpdate);
             await LoadUsersInfo();
         }
         catch (ObjectDisposedException) { /* ignore */ }
