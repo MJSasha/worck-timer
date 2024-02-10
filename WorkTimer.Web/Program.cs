@@ -9,6 +9,7 @@ using WorkTimer.Common.Models;
 using WorkTimer.Web;
 using WorkTimer.Web.Common;
 using WorkTimer.Web.Dialogs;
+using WorkTimer.Web.Dialogs.CreateOrEditUserDialog;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -20,7 +21,10 @@ builder.Services
     .AddSingleton(appSettings);
 
 builder.Services.AddMudServices();
-builder.Services.AddModalDialogs(typeof(InputDialog), typeof(MessageDialog), typeof(UsersDataDialog))
+builder.Services.AddModalDialogs(typeof(InputDialog),
+    typeof(MessageDialog),
+    typeof(UsersDataDialog),
+    typeof(CreateOrEditUserModal))
                 .AddIdentity<User>("session-key")
                 .ProvideCommonServices(appSettings);
 

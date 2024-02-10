@@ -1,0 +1,50 @@
+﻿@using BlazorModalDialogs.Definitions
+@using QuickActions.Common.Specifications
+@using System.Globalization
+@using WorkTimer.Common.Definitions
+@using WorkTimer.Common.Interfaces
+@using WorkTimer.Common.Models
+@using WorkTimer.Web.Common.Utils
+
+@inherits Dialog<CreateOrEditUserDialogParams, User>
+
+<EditForm Model="@Params.User" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <DialogLayout IsDisplayed="IsDisplayed">
+        <Modal Title="@(Params.EditMode ? "Редактирование пользователя" : "Добавление пользователя")" OnClose="() => this.Cancel()" DispalyCenter OnKeyEnterPressed="OnKeyEnterPressed">
+             <Content>
+                 <MudGrid>
+                     <MudItem Class="w-100">
+                         <MudTextField Required Label="Имя" @bind-Value="Params.User.Name" For="@(() => Params.User.Name)" />
+                         <MudTextField Required Label="Почта" Class="mt-3" @bind-Value="Params.User.Email" For="@(() => Params.User.Email)" />
+                         <MudTextField Required Label="Пароль" Class="mt-3" @bind-Value="Params.User.Password" For="@(() => Params.User.Password)" InputType="InputType.Password" />
+                         <MudSelect T="UserRole" Required @bind-Value="Params.User.Role" Label="Роль" For="@(() => Params.User.Role)">
+                            @foreach (var item in Enum.GetValues(typeof(UserRole)))
+                            {
+                                <MudSelectItem Value="@item" />
+                            }
+                        </MudSelect>
+                        <MudNumericField Format="N2" Class="mt-3" Required Label="Оклад" @bind-Value="Params.User.Salary" For="@(() => Params.User.Salary)" />
+                     </MudItem>
+                 </MudGrid>
+            </Content>
+            <Footer>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3 ml-auto">Сохранить</MudButton>
+            </Footer>
+        </Modal>
+    </DialogLayout>
+</EditForm>
+
+ @code {
+
+    protected void OnKeyEnterPressed()
+    {
+        this.Close(Params.User);
+    }
+
+    private void OnValidSubmit(EditContext context)
+    {
+        if (context.Validate() == false) return;
+        this.Close(Params.User);
+    }
+}

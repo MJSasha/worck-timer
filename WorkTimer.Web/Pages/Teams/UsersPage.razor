@@ -2,6 +2,7 @@
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
 @using WorkTimer.Web.Dialogs
+@using WorkTimer.Web.Dialogs.CreateOrEditUserDialog
 
 @page "/users"
 
@@ -33,6 +34,7 @@
                 </PagerContent>
             </MudTable>
         </div>
+        <MudFab OnClick="CreateUser" Style="position: absolute; bottom: 20px; right: 20px;" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
     </Content>
 </PageLayout>
 
@@ -51,7 +53,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
+        await LoadUsersInfo();
     }
 
     private bool FilterUsers(User element) => FilterUsers(element, searchString);
@@ -76,5 +78,26 @@
             await DialogsService.Show<UsersDataDialog, User, object>(user);
         }
         catch (ObjectDisposedException) { /* ignore */ }
+    }
+
+    private async Task CreateUser()
+    {
+        try
+        {
+            var user = await DialogsService.Show<CreateOrEditUserModal, CreateOrEditUserDialogParams, User>(new CreateOrEditUserDialogParams
+            {
+                User = new()
+            });
+
+            await UsersService.Create(user);
+            await LoadUsersInfo();
+        }
+        catch (ObjectDisposedException) { /* ignore */ }
+    }
+
+    private async Task LoadUsersInfo()
+    {
+        Users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
+        StateHasChanged();
     }
 }

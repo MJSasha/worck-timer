@@ -1,5 +1,6 @@
 ﻿@using BlazorModalDialogs.Definitions
 @using QuickActions.Common.Specifications
+@using System.Globalization
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
 @using WorkTimer.Web.Common.Utils
@@ -20,16 +21,21 @@
                         {
                             <MudDivider Class="my-3" />
                             <MudTextField Variant="Variant.Filled" T="string" Label="Время работы" Value="workDuration.Humanize()" />
-                            <MudNumericField Variant="Variant.Filled" T="decimal" Format="N2" decimal Label="Оплата за период" Value="durationSalary" />
+                            <MudNumericField Variant="Variant.Filled" T="decimal" Format="N2" decimal Label="Оплата за месяц" Value="durationSalary" />
                         }
                     </MudForm>
                 </MudItem>
                 <MudItem xs="8">
-                    <MudDateRangePicker Variant="Variant.Outlined" Required @bind-DateRange="dateRange" PlaceholderStart="Начало" PlaceholderEnd="Конец" />
-                    <MudButton Class="mt-3 w-100" Variant="Variant.Outlined" Color="Color.Primary" OnClick="LoadPeriodsData">Отобразить</MudButton>
+                    <MudDatePicker
+                        DateFormat="yyyy/MM"
+                        OpenTo="OpenTo.Year"
+                        FixDay="1"
+                        Variant="Variant.Outlined"
+                        Required @bind-Date="SelectedMonth"
+                        Label="Месяц"/>
                     @if (workPeriods != null)
                     {
-                        <MudTable Dense Class="mt-3 overflow-auto" Style="max-height: 16rem" Items="workPeriods">
+                        <MudTable Dense FixedHeader Class="mt-3 overflow-auto" Height="317px" Items="workPeriods">
                             <HeaderContent>
                                 <MudTh>Начало</MudTh>
                                 <MudTh>Конец</MudTh>
@@ -56,14 +62,27 @@
     [Inject]
     public IWorkPeriod WorkPeriodsService { get; set; }
 
-    private DateRange dateRange;
+    private DateTime? SelectedMonth
+    {
+        get => selectedMonth;
+        set
+        {
+            if (!selectedMonth.Equals(value))
+            {
+                selectedMonth = value;
+                LoadPeriodsData();
+            }
+        }
+    }
+
+    private DateTime? selectedMonth;
     private List<WorkPeriod> workPeriods;
     private TimeSpan workDuration = new();
     private decimal durationSalary;
 
     protected override void OnAfterShow()
     {
-        dateRange = new DateRange();
+        SelectedMonth = null;
         workPeriods = null;
         StateHasChanged();
     }
@@ -75,12 +94,12 @@
 
     private async Task LoadPeriodsData()
     {
-        if (dateRange.Start == null || dateRange.End == null) return;
+        if (SelectedMonth == null || SelectedMonth == default) return;
 
         workPeriods = await WorkPeriodsService.Read(
             new Specification<WorkPeriod>(p => p.EndAt != null
-                && p.StartAt.Date >= dateRange.Start.Value.ToUniversalTime().Date
-                && p.EndAt.Value.Date < dateRange.End.Value.ToUniversalTime().Date
+                && p.StartAt.Date >= SelectedMonth.Value.ToUniversalTime().Date
+                && p.EndAt.Value.Date < SelectedMonth.Value.ToUniversalTime().AddMonths(1).Date
                 && p.UserId == Params.Id),
             0,
             int.MaxValue
@@ -92,49 +111,15 @@
             workDuration += period;
         }
 
-        durationSalary = CalculateTotalSalary(workPeriods);
+        durationSalary = CalculateTotalSalary(workDuration);
 
         StateHasChanged();
     }
 
-    // TODO - move to back
-    private decimal CalculateTotalSalary(IEnumerable<WorkPeriod> workPeriods)
+    private decimal CalculateTotalSalary(TimeSpan workDuration)
     {
-        decimal totalSalary = 0;
+        var workDaysCount = selectedMonth.Value.GetCountWorkDaysInMonth();
 
-        foreach (var period in workPeriods)
-        {
-            if (period == null) continue;
-            int totalWorkHoursInMonth = CalculateWorkDaysInMonth(period) * 8;
-            var totalWorkHoursInPeriod = (decimal)(period.EndAt.Value - period.StartAt).TotalHours;
-            totalSalary += (totalWorkHoursInPeriod * Params.Salary) / totalWorkHoursInMonth;
-        }
-
-        return totalSalary;
-    }
-
-
-    private decimal CalculateWorkHours(WorkPeriod workPeriod)
-    {
-        return (decimal)(workPeriod.EndAt.Value - workPeriod.StartAt).TotalHours;
-    }
-
-    private int CalculateWorkDaysInMonth(WorkPeriod workPeriod)
-    {
-        int workDays = 0;
-        DateTime currentDate = new DateTime(workPeriod.StartAt.Year, workPeriod.StartAt.Month, 1);
-        DateTime endOfMonth = new DateTime(workPeriod.StartAt.Year, workPeriod.StartAt.Month, DateTime.DaysInMonth(workPeriod.StartAt.Year, workPeriod.StartAt.Month));
-
-        while (currentDate <= endOfMonth && currentDate <= workPeriod.EndAt)
-        {
-            if (currentDate.DayOfWeek != DayOfWeek.Saturday && currentDate.DayOfWeek != DayOfWeek.Sunday)
-            {
-                workDays++;
-            }
-
-            currentDate = currentDate.AddDays(1);
-        }
-
-        return workDays;
+        return (decimal)(Params.Salary / (workDaysCount * 8)) * (decimal)workDuration.TotalHours;
     }
 }
