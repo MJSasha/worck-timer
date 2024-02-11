@@ -1,0 +1,19 @@
+.progress-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, white 30%, transparent 0% 100%), conic-gradient(var(--bs-primary) calc(var(--progress-value) * 1%), var(--bs-info) 0);
+    animation: progress 2s 1 forwards;
+}
+
+    .progress-bar.light {
+        background: radial-gradient(closest-side, var(--bs-primary) 30%, transparent 0% 100%), conic-gradient(var(--bs-info) calc(var(--progress-value) * 1%), var(--bs-white) 0);
+    }
+
+    .progress-bar::before {
+        counter-reset: percentage var(--progress-value);
+        animation: progress 2s 1 forwards;
+    }

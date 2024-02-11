@@ -6,26 +6,26 @@
 /*Texts*/
 
 .page-title {
-    font-size: 16pt;
-    color: var(--bs-primary);
+    font-size: 18pt;
+    color: var(--mud-palette-primary);
     font-weight: bold;
     text-transform: uppercase;
 }
 
 .sub-header {
-    font-size: 16pt;
+    font-size: 18pt;
     color: var(--bs-secondary);
 }
 
 .section-title {
-    font-size: 14pt;
-    color: var(--bs-primary);
+    font-size: 16pt;
+    color: var(--mud-palette-primary);
     font-weight: bold;
 }
 
 .subsection-title {
-    font-size: 10pt;
-    color: var(--bs-primary);
+    font-size: 14pt;
+    color: var(--mud-palette-primary);
     font-weight: bold;
 }
 
@@ -35,7 +35,7 @@
     border-radius: .1rem;
     padding: 0.8rem;
     align-items: flex-start;
-    background-color: var(--bs-white);
+    background-color: var(--mud-palette-white);
     box-shadow: var(--shadow);
 }
 

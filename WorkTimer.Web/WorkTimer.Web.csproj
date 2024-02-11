@@ -12,7 +12,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.19" PrivateAssets="all" />
     <PackageReference Include="MudBlazor" Version="6.15.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PSC.Blazor.Components.Chartjs" Version="6.0.43" />
   </ItemGroup>
 
   <ItemGroup>

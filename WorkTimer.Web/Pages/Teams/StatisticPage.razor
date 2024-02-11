@@ -2,8 +2,36 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="Статистика">
+<PageLayout IsLoading="IsLoading" PageTitle="Статистика">
     <Content>
-        Some content
+        @if (statistic != null)
+        {
+            <MudGrid Class="p-3" Justify="Justify.Center">
+                <MudItem>
+                        <MudTable Height="30rem" Hover FixedHeader Dense Items="@statistic" GroupBy="@groupDefinition">
+                            <HeaderContent>
+                                <MudTh>Пользователь</MudTh>
+                                <MudTh>Продолжительность работы</MudTh>
+                            </HeaderContent>
+                            <GroupHeaderTemplate>
+                                <MudTh Style="font-weight: bold; color: var(--mud-palette-secondary)" colspan="2">@context.Key</MudTh>
+                            </GroupHeaderTemplate>
+                            <RowTemplate>
+                                <MudTd DataLabel="Пользователь">@context.User.Name</MudTd>
+                                <MudTd DataLabel="Продолжительность">@context.WorkDuration.Humanize()</MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                </MudItem>
+                <MudItem>
+                    <MudPaper Height="30rem" Class="p-3">
+                        <MudStack Class="w-100 h-100" Row>
+                            <MudChart ChartType="ChartType.Line" ChartSeries="@series" XAxisLabels="@xAxisLabels" Width="100%" ChartOptions="options"></MudChart>
+                            <MudDivider Vertical />
+                            <MudChart ChartType="ChartType.Donut" InputData="@donutData" @bind-SelectedIndex="donutSelectedIndex" Width="100%" InputLabels="@donutLabels" />
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+        }
     </content>
 </PageLayout>

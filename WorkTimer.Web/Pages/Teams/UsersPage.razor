@@ -9,7 +9,7 @@
 
 @attribute [Authorize]
 
-<PageLayout PageTitle="Статистика">
+<PageLayout IsLoading="IsLoading" PageTitle="Статистика">
     <Content>
         <div class="d-flex justify-content-center w-100 p-3">
             <MudTable Hover Striped Style="min-width: 60%" Items="@Users" OnRowClick="new EventCallback<TableRowClickEventArgs<User>>(this, RowClickEvent)" Filter="new Func<User,bool>(FilterUsers)">
@@ -46,7 +46,7 @@
     </Content>
 </PageLayout>
 
-    @code {
+@code {
 
     [CascadingParameter]
     public Session<User> CurrentSession { get; set; }
@@ -57,9 +57,11 @@
     [Inject]
     public DialogsService DialogsService { get; set; }
 
+    private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
     private string searchString = "";
     private HashSet<User> selectedItems = new HashSet<User>();
 
+    private bool isLoading;
     private List<User> Users = new List<User>();
 
     protected override async Task OnInitializedAsync()
@@ -124,7 +126,8 @@
 
     private async Task LoadUsersInfo()
     {
+        IsLoading = true;
         Users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
-        StateHasChanged();
+        IsLoading = false;
     }
 }

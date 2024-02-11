@@ -4,6 +4,7 @@
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
 @using WorkTimer.Web.Common.Utils
+@using WorkTimer.Common.Utils
 
 @inherits Dialog<User, object>
 
@@ -105,12 +106,7 @@
             int.MaxValue
         );
 
-        workDuration = new();
-        foreach (var period in workPeriods.Select(p => p.EndAt.Value - p.StartAt))
-        {
-            workDuration += period;
-        }
-
+        workDuration = workPeriods.GetDuration();
         durationSalary = CalculateTotalSalary(workDuration);
 
         StateHasChanged();

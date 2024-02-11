@@ -11,5 +11,18 @@ namespace WorkTimer.Web.Common.Utils
         public static string HumanizeDate(this DateTime? dateTime) => dateTime == null ? "" : ((DateTime)dateTime).HumanizeDate();
         public static string GetMonthName(this DateTime dateTime) => char.ToUpper(dateTime.ToLocalTime().ToString("MMMM", CultureInfo.GetCultureInfo("ru-RU"))[0]) + dateTime.ToLocalTime().ToString("MMMM", CultureInfo.GetCultureInfo("ru-RU"))[1..].ToLower();
         public static string GetMonthName(this DateTime? dateTime) => dateTime == null ? "" : ((DateTime)dateTime).Humanize();
+        public static string GetMonthAndYearNames(int year, int month)
+        {
+            var date = new DateTime(
+                year: year,
+                month: month,
+                day: 1,
+                hour: 0,
+                minute: 0,
+                second: 0,
+                kind: DateTimeKind.Local);
+
+            return $"{date.GetMonthName()} {date.Year}";
+        }
     }
 }

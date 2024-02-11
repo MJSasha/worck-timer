@@ -3,9 +3,12 @@ using QuickActions.Api;
 using QuickActions.Api.Identity.IdentityCheck;
 using QuickActions.Api.Identity.Services;
 using QuickActions.Common.Specifications;
+using Refit;
 using WorkTimer.Api.Repository;
+using WorkTimer.Common.Data;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
+using WorkTimer.Common.Utils;
 
 namespace WorkTimer.Api.Controllers
 {
@@ -23,6 +26,8 @@ namespace WorkTimer.Api.Controllers
             this.sessionsService = sessionsService;
         }
 
+        // TODO: move logic to services
+
         [HttpPost("GetMonthStatistic")]
         public async Task<Dictionary<int, double>> GetMonthStatistic(DateTime monthDateTime)
         {
@@ -30,7 +35,7 @@ namespace WorkTimer.Api.Controllers
             var startDate = new DateTime(monthDateTime.Year, monthDateTime.Month, 1).ToUniversalTime();
             var endDate = startDate.AddMonths(1);
 
-            var periodsFilter = new Specification<WorkPeriod>(wp => wp.StartAt >= startDate.Date && wp.EndAt <= endDate.Date && wp.EndAt != null && wp.UserId == currentUser.Id);
+            var periodsFilter = new Specification<WorkPeriod>(wp => wp.StartAt >= startDate.Date && wp.EndAt != null && wp.EndAt <= endDate.Date && wp.UserId == currentUser.Id);
             var periods = await workPeriodRepository.Read(periodsFilter, 0, int.MaxValue);
 
             var periodGroups = periods.GroupBy(wp => wp.StartAt.Date);
@@ -41,11 +46,40 @@ namespace WorkTimer.Api.Controllers
             {
                 TimeSpan totalHours = new();
                 foreach (var period in periodGroup) totalHours += (DateTime)period.EndAt - period.StartAt;
-                int totalSecondsIn24Hours = 24 * 60 * 60;
+                int totalSecondsInDay = (int)TimeSpan.FromDays(1).TotalSeconds;
                 int periodSeconds = (int)totalHours.TotalSeconds;
-                double percent = (double)periodSeconds / totalSecondsIn24Hours * 100;
+                double percent = (double)periodSeconds / totalSecondsInDay * 100;
                 result.Add(periodGroup.Key.Day, percent);
             }
+
+            return result;
+        }
+
+        [HttpPost("getUsersWorksDurationsReportByMonth")]
+        public async Task<List<UsersWorksDurationsReportByMonth>> GetUsersWorksDurationsReportByMonth(DateTime startAt, DateTime endAt, int? userId = null)
+        {
+            var specification = new Specification<WorkPeriod>(s => s.EndAt != null && s.EndAt.Value <= endAt && s.StartAt >= startAt).Include(p => p.User);
+            if (userId.HasValue) specification &= new Specification<WorkPeriod>(s => s.UserId == userId.Value);
+            var periods = await Read(specification, 0, int.MaxValue);
+
+            var periodsGroups = periods.GroupBy(p => new { p.StartAt.Year, p.StartAt.Month, });
+
+            var result = new List<UsersWorksDurationsReportByMonth>();
+
+            foreach (var periodGroup in periodsGroups)
+            {
+                result.Add(new UsersWorksDurationsReportByMonth
+                {
+                    Year = periodGroup.Key.Year,
+                    Month = periodGroup.Key.Month,
+                    UsersWorksDurationsInfos = periodGroup.GroupBy(p => p.User).Select(g => new UserWorkDurationInfo
+                    {
+                        User = g.Key,
+                        WorkDuration = g.GetDuration()
+                    }).ToList(),
+                });
+            }
+            result = result.OrderByDescending(r => r.Year).ThenByDescending(r => r.Month).ToList();
 
             return result;
         }
