@@ -18,7 +18,7 @@
                          <MudTextField Required Label="Имя" @bind-Value="Params.User.Name" For="@(() => Params.User.Name)" />
                          <MudTextField Required Label="Почта" Class="mt-3" @bind-Value="Params.User.Email" For="@(() => Params.User.Email)" />
                          <MudTextField Required Label="Пароль" Class="mt-3" @bind-Value="Params.User.Password" For="@(() => Params.User.Password)" InputType="InputType.Password" />
-                         <MudSelect T="UserRole" Required @bind-Value="Params.User.Role" Label="Роль" For="@(() => Params.User.Role)">
+                         <MudSelect Dense T="UserRole" Required @bind-Value="Params.User.Role" Label="Роль" For="@(() => Params.User.Role)">
                              @foreach (UserRole item in Enum.GetValues(typeof(UserRole)))
                             {
                                 <MudSelectItem Value="@item" Text="@item.ToString()" />

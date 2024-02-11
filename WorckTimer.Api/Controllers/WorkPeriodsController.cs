@@ -58,9 +58,9 @@ namespace WorkTimer.Api.Controllers
         [HttpPost("getUsersWorksDurationsReportByMonth")]
         public async Task<List<UsersWorksDurationsReportByMonth>> GetUsersWorksDurationsReportByMonth(DateTime startAt, DateTime endAt, int? userId = null)
         {
-            var specification = new Specification<WorkPeriod>(s => s.EndAt != null && s.EndAt.Value <= endAt && s.StartAt >= startAt).Include(p => p.User);
+            var specification = new Specification<WorkPeriod>(s => s.EndAt != null && s.EndAt.Value <= endAt && s.StartAt >= startAt);
             if (userId.HasValue) specification &= new Specification<WorkPeriod>(s => s.UserId == userId.Value);
-            var periods = await Read(specification, 0, int.MaxValue);
+            var periods = await Read(specification.Include(p => p.User), 0, int.MaxValue);
 
             var periodsGroups = periods.GroupBy(p => new { p.StartAt.Year, p.StartAt.Month, });
 

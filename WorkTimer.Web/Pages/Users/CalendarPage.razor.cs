@@ -52,8 +52,6 @@ namespace WorkTimer.Web.Pages.Users
         private async Task ShowDayInfo(int dayNumber)
         {
             if (SelectedDay.Day == dayNumber && SelectedDay.Month == SelectedDate.Month && SelectedDay.Year == SelectedDate.Year) return;
-            IsLoading = true;
-
             try
             {
                 var selectedDate = new DateTime(SelectedDate.Year, SelectedDate.Month, dayNumber).Date;
@@ -72,8 +70,6 @@ namespace WorkTimer.Web.Pages.Users
             {
                 //await exceptionsHandler.Handle(ex);
             }
-
-            IsLoading = false;
         }
 
         private async Task AddMonth(int monthCount)

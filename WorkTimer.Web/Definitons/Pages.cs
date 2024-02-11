@@ -1,4 +1,6 @@
-﻿namespace WorkTimer.Web.Definitons
+﻿using System.Text;
+
+namespace WorkTimer.Web.Definitons
 {
     public static class Pages
     {
@@ -26,9 +28,13 @@
         {
             private static string pageUrl = "/statistic";
 
-            public static string GetUrl()
+            public static string GetUrl(bool showForUser = false)
             {
-                return pageUrl;
+                if (showForUser)
+                {
+                    return BuildPageUrl($"{pageUrl}/true");
+                }
+                return BuildPageUrl(pageUrl);
             }
         }
 
@@ -45,16 +51,6 @@
         public static class Calendar
         {
             private static string pageUrl = "/calendar";
-
-            public static string GetUrl()
-            {
-                return pageUrl;
-            }
-        }
-
-        public static class UserStatistic
-        {
-            private static string pageUrl = "/userStatistic";
 
             public static string GetUrl()
             {
@@ -80,6 +76,17 @@
             {
                 return pageUrl;
             }
+        }
+
+        private static string BuildPageUrl(string url, params (string name, object value)[] parameters)
+        {
+            StringBuilder stringBuilder = new(url);
+            if (parameters != null && parameters.Length > 0)
+            {
+                stringBuilder.Append('?');
+                stringBuilder.Append(string.Join("&", parameters.Select(p => $"{Uri.EscapeDataString(p.name)}={Uri.EscapeDataString(p.value.ToString())}")));
+            }
+            return stringBuilder.ToString();
         }
     }
 }

@@ -1,21 +1,53 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using QuickActions.Common.Data;
+using QuickActions.Common.Specifications;
 using WorkTimer.Common.Data;
 using WorkTimer.Common.Interfaces;
+using WorkTimer.Common.Models;
 using WorkTimer.Web.Common.Utils;
 
 namespace WorkTimer.Web.Pages.Teams
 {
     public partial class StatisticPage : ComponentBase
     {
+        [CascadingParameter]
+        public Session<User> CurrentSession { get; set; }
+
         [Inject]
         public IWorkPeriod WorkPeriodsService { get; set; }
+
+        [Inject]
+        public IUsers UsersService { get; set; }
+
+        [Parameter]
+        public bool ShowForUser
+        {
+            get => showForUser;
+            set
+            {
+                if (showForUser != value)
+                {
+                    showForUser = value;
+                    if (showForUser) selectedUser = CurrentSession.Data;
+                    else selectedUser = null;
+                    RefreshData();
+                }
+            }
+        }
 
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
         private List<UsersWorksDurationsReportByMonth> usersWorksDurationsReports;
         private List<StatisticWrapper> statistic;
+        private List<User> users;
+
+        private DateTime? startDate = DateTime.Now.AddMonths(-3).Date;
+        private DateTime? endDate = DateTime.Now.Date;
+        private User selectedUser;
 
         private bool isLoading;
+        private bool showDonutChart;
+        private bool showForUser;
         private ChartOptions options = new();
         private List<ChartSeries> series = new();
         private string[] xAxisLabels;
@@ -31,19 +63,44 @@ namespace WorkTimer.Web.Pages.Teams
             Selector = (e) => e.MonthName
         };
 
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
+            await RefreshData();
+        }
+
         protected override async Task OnInitializedAsync()
         {
             IsLoading = true;
             await base.OnInitializedAsync();
 
+            options.InterpolationOption = InterpolationOption.NaturalSpline;
+
+            if (ShowForUser)
+            {
+                selectedUser = CurrentSession.Data;
+            }
+            else
+            {
+                users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
+            }
+
+            await RefreshData();
+        }
+
+        private async Task RefreshData()
+        {
+            IsLoading = true;
+
             await LoadStatistic();
             FormatChartStatistic();
+
             IsLoading = false;
         }
 
         private async Task LoadStatistic()
         {
-            usersWorksDurationsReports = await WorkPeriodsService.GetUsersWorksDurationsReportByMonth(DateTime.UtcNow.AddMonths(-3), DateTime.UtcNow);
+            usersWorksDurationsReports = await WorkPeriodsService.GetUsersWorksDurationsReportByMonth(startDate.Value.ToUniversalTime(), endDate.Value.AddMonths(1).ToUniversalTime(), selectedUser?.Id);
 
             statistic = usersWorksDurationsReports.SelectMany(s =>
             {
@@ -59,6 +116,9 @@ namespace WorkTimer.Web.Pages.Teams
 
         private void FormatChartStatistic()
         {
+            showDonutChart = selectedUser == null;
+            options.DisableLegend = !showDonutChart;
+            series = new();
             xAxisLabels = usersWorksDurationsReports.Select(r => $"{r.Month}/{r.Year}").ToArray();
 
             var groupedReports = usersWorksDurationsReports

@@ -27,7 +27,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="@Pages.Calendar.GetUrl()">Календарь</a>
-                            <a class="dropdown-item" href="@Pages.UserStatistic.GetUrl()">Моя статистика</a>
+                            <a class="dropdown-item" href="@Pages.Statistic.GetUrl(true)">Моя статистика</a>
                         </div>
                     </li>
                     @if (CurrentUser?.Role == UserRole.Admin)
