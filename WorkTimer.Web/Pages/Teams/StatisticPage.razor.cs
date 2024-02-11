@@ -57,10 +57,9 @@ namespace WorkTimer.Web.Pages.Teams
 
         private TableGroupDefinition<StatisticWrapper> groupDefinition = new()
         {
-            GroupName = "Group",
             Indentation = false,
-            Expandable = false,
-            Selector = (e) => e.MonthName
+            Expandable = true,
+            Selector = (e) => e.MonthWorkInfo
         };
 
         protected override async Task OnParametersSetAsync()
@@ -104,12 +103,13 @@ namespace WorkTimer.Web.Pages.Teams
 
             statistic = usersWorksDurationsReports.SelectMany(s =>
             {
-                var monthName = Formatters.GetMonthAndYearNames(s.Year, s.Month);
+                var monthWorkInfo = new MonthWorkInfo { MonthName = Formatters.GetMonthAndYearNames(s.Year, s.Month), TotalSalary = s.TotalSalary };
                 return s.UsersWorksDurationsInfos.Select(di => new StatisticWrapper
                 {
-                    MonthName = monthName,
+                    MonthWorkInfo = monthWorkInfo,
                     User = di.User,
                     WorkDuration = di.WorkDuration,
+                    TotalSalary = di.TotalSalary,
                 });
             }).ToList();
         }
@@ -119,10 +119,11 @@ namespace WorkTimer.Web.Pages.Teams
             showDonutChart = selectedUser == null;
             options.DisableLegend = !showDonutChart;
             series = new();
-            xAxisLabels = usersWorksDurationsReports.Select(r => $"{r.Month}/{r.Year}").ToArray();
+            xAxisLabels = usersWorksDurationsReports.Select(r => $"{r.Month}/{r.Year}").Reverse().ToArray();
 
             var groupedReports = usersWorksDurationsReports
                 .SelectMany(report => report.UsersWorksDurationsInfos)
+                .Reverse()
                 .GroupBy(info => new { info.User.Id, info.User.Name });
 
             foreach (var userGroup in groupedReports)
@@ -139,7 +140,13 @@ namespace WorkTimer.Web.Pages.Teams
 
         private sealed class StatisticWrapper : UserWorkDurationInfo
         {
+            public MonthWorkInfo MonthWorkInfo { get; set; }
+        }
+
+        private sealed class MonthWorkInfo
+        {
             public string MonthName { get; set; }
+            public decimal TotalSalary { get; set; }
         }
     }
 }

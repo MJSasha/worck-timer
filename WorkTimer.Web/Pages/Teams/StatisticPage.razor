@@ -53,14 +53,23 @@
                         <MudTable Height="30rem" Hover FixedHeader Dense Items="@statistic" GroupBy="@groupDefinition">
                             <HeaderContent>
                                 <MudTh>Пользователь</MudTh>
-                                <MudTh>Продолжительность работы</MudTh>
+                                <MudTh>Время работы</MudTh>
+                                <MudTh>Оклад</MudTh>
                             </HeaderContent>
                             <GroupHeaderTemplate>
-                                <MudTh Style="font-weight: bold; color: var(--mud-palette-secondary)" colspan="2">@context.Key</MudTh>
+                                <MudTh Style="font-weight: bold; color: var(--mud-palette-secondary)" colspan="3">
+                                    <div class="d-flex flex-row">
+                                        @(((MonthWorkInfo)context.Key).MonthName)
+                                        <div class="ms-auto">
+                                            @(((MonthWorkInfo)context.Key).TotalSalary.ToString("N2")) ₽
+                                        </div>
+                                    </div>
+                                </MudTh>
                             </GroupHeaderTemplate>
                             <RowTemplate>
                                 <MudTd DataLabel="Пользователь">@context.User.Name</MudTd>
-                                <MudTd DataLabel="Продолжительность">@context.WorkDuration.Humanize()</MudTd>
+                                <MudTd DataLabel="Время">@context.WorkDuration.Humanize()</MudTd>
+                                <MudTd DataLabel="Оклад">@context.TotalSalary.ToString("N2") ₽</MudTd>
                             </RowTemplate>
                         </MudTable>
                 </MudItem>

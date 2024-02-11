@@ -6,5 +6,6 @@ namespace WorkTimer.Common.Data
     {
         public User User { get; set; }
         public TimeSpan WorkDuration { get; set; }
+        public decimal TotalSalary { get; set; }
     }
 }

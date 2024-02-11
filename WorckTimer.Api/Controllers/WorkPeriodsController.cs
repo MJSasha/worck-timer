@@ -58,7 +58,7 @@ namespace WorkTimer.Api.Controllers
         [HttpPost("getUsersWorksDurationsReportByMonth")]
         public async Task<List<UsersWorksDurationsReportByMonth>> GetUsersWorksDurationsReportByMonth(DateTime startAt, DateTime endAt, int? userId = null)
         {
-            var specification = new Specification<WorkPeriod>(s => s.EndAt != null && s.EndAt.Value <= endAt && s.StartAt >= startAt);
+            var specification = new Specification<WorkPeriod>(s => s.EndAt != null && s.EndAt.Value <= endAt && s.StartAt.Date > startAt);
             if (userId.HasValue) specification &= new Specification<WorkPeriod>(s => s.UserId == userId.Value);
             var periods = await Read(specification.Include(p => p.User), 0, int.MaxValue);
 
@@ -75,13 +75,23 @@ namespace WorkTimer.Api.Controllers
                     UsersWorksDurationsInfos = periodGroup.GroupBy(p => p.User).Select(g => new UserWorkDurationInfo
                     {
                         User = g.Key,
-                        WorkDuration = g.GetDuration()
+                        WorkDuration = g.GetDuration(),
+                        TotalSalary = CalculateTotalSalary(g.GetDuration(), g.Key.Salary, periodGroup.Key.Month, periodGroup.Key.Year)
                     }).ToList(),
                 });
             }
+
+            result.ForEach(r => r.TotalSalary = r.UsersWorksDurationsInfos.Sum(i => i.TotalSalary));
             result = result.OrderByDescending(r => r.Year).ThenByDescending(r => r.Month).ToList();
 
             return result;
+        }
+
+        private decimal CalculateTotalSalary(TimeSpan workDuration, decimal salary, int month, int year)
+        {
+            var workDaysCount = month.GetCountWorkDaysInMonth(year);
+
+            return (salary / (workDaysCount * 8)) * (decimal)workDuration.TotalHours;
         }
     }
 }
