@@ -1,0 +1,42 @@
+﻿@page "/information"
+
+@attribute [Authorize]
+
+<PageLayout PageTitle="Информация">
+    <Content>
+        <MudGrid Justify="Justify.Center" Class="mx-auto p-5" Spacing="5">
+            <MudItem sm="6">
+                <MudText Typo="Typo.h1" Align="Align.End" Color="Color.Primary">WORK</MudText>
+            </MudItem>
+            <MudItem sm="6">
+                <MudText Typo="Typo.body2">
+                    В мире бизнеса и продуктивности,
+                    <br />
+                    наше приложение - это надежный путеводитель.
+                    <br/>
+                    Оно помогает вам организовать ваш рабочий процесс так,
+                    <br />
+                    чтобы он был не только эффективным,
+                    <br />
+                    но и приносил удовольствие.
+                </MudText>
+            </MudItem>
+            <MudItem sm="6">
+                <MudText Align="Align.End" Typo="Typo.body2">
+                    Мы заботимся о том, чтобы ваш рабочий
+                    <br />
+                    день был увлекательным и результативным.
+                    <br />
+                    Наше приложение помогает вам точно определить время,
+                    <br />
+                    проведенное за работой, и обеспечивает
+                    <br />
+                    контроль над вашими проектами.
+                </MudText>
+            </MudItem>
+            <MudItem sm="6">
+                <MudText Typo="Typo.h1" Color="Color.Secondary">TIMER</MudText>
+            </MudItem>
+        </MudGrid>
+    </Content>
+</PageLayout>

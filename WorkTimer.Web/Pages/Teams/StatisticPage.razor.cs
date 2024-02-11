@@ -29,7 +29,7 @@ namespace WorkTimer.Web.Pages.Teams
                 if (showForUser != value)
                 {
                     showForUser = value;
-                    if (showForUser) selectedUser = CurrentSession.Data;
+                    if (showForUser) selectedUser = CurrentSession?.Data;
                     else selectedUser = null;
                     RefreshData();
                 }

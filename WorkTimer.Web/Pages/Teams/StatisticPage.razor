@@ -10,17 +10,17 @@
         <MudGrid Class="p-3" Justify="Justify.Center">
             <MudItem xs="12">
                 <MudGrid Class="w-75 mx-auto">
-                        <MudItem xs="3">
-                    @if (!ShowForUser)
-                    {
+                    <MudItem xs="3">
+                        @if (!ShowForUser)
+                        {
                             <MudSelect Clearable T="User" Label="Пользователь" @bind-Value="selectedUser" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                                 @foreach (var user in users)
                                 {
                                     <MudSelectItem Value="user">@user.Name (@user.Email)</MudSelectItem>
                                 }
                             </MudSelect>
-                    }
-                        </MudItem>
+                        }
+                    </MudItem>
                     <MudItem xs="3">
                         <MudDatePicker
                             DateFormat="yyyy/MM"
