@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            @if (MonthStatistic.ContainsKey(SelectedDay.Day) && DayPeriods != null)
+            @if (MonthStatistic.ContainsKey(SelectedDay.Day) && DayPeriods != null && DayPeriods.Any())
             {
                 <div class="section-title">Периоды за @(new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDay.Day).HumanizeDate())</div>
 

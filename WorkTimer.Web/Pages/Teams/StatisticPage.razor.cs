@@ -2,6 +2,7 @@
 using MudBlazor;
 using QuickActions.Common.Data;
 using QuickActions.Common.Specifications;
+using WorkTimer.App.Services;
 using WorkTimer.Common.Data;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
@@ -19,6 +20,9 @@ namespace WorkTimer.Web.Pages.Teams
 
         [Inject]
         public IUsers UsersService { get; set; }
+
+        [Inject]
+        public ExceptionsHandler ExceptionsHandler { get; set; }
 
         [Parameter]
         public bool ShowForUser
@@ -70,21 +74,28 @@ namespace WorkTimer.Web.Pages.Teams
 
         protected override async Task OnInitializedAsync()
         {
-            IsLoading = true;
-            await base.OnInitializedAsync();
-
-            options.InterpolationOption = InterpolationOption.NaturalSpline;
-
-            if (ShowForUser)
+            try
             {
-                selectedUser = CurrentSession.Data;
-            }
-            else
-            {
-                users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
-            }
+                IsLoading = true;
+                await base.OnInitializedAsync();
 
-            await RefreshData();
+                options.InterpolationOption = InterpolationOption.NaturalSpline;
+
+                if (ShowForUser)
+                {
+                    selectedUser = CurrentSession.Data;
+                }
+                else
+                {
+                    users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
+                }
+
+                await RefreshData();
+            }
+            catch (Exception ex)
+            {
+                await ExceptionsHandler.Handle(ex);
+            }
         }
 
         private async Task RefreshData()
@@ -99,19 +110,26 @@ namespace WorkTimer.Web.Pages.Teams
 
         private async Task LoadStatistic()
         {
-            usersWorksDurationsReports = await WorkPeriodsService.GetUsersWorksDurationsReportByMonth(startDate.Value.ToUniversalTime(), endDate.Value.AddMonths(1).ToUniversalTime(), selectedUser?.Id);
-
-            statistic = usersWorksDurationsReports.SelectMany(s =>
+            try
             {
-                var monthWorkInfo = new MonthWorkInfo { MonthName = Formatters.GetMonthAndYearNames(s.Year, s.Month), TotalSalary = s.TotalSalary };
-                return s.UsersWorksDurationsInfos.Select(di => new StatisticWrapper
+                usersWorksDurationsReports = await WorkPeriodsService.GetUsersWorksDurationsReportByMonth(startDate.Value.ToUniversalTime(), endDate.Value.AddMonths(1).ToUniversalTime(), selectedUser?.Id);
+
+                statistic = usersWorksDurationsReports.SelectMany(s =>
                 {
-                    MonthWorkInfo = monthWorkInfo,
-                    User = di.User,
-                    WorkDuration = di.WorkDuration,
-                    TotalSalary = di.TotalSalary,
-                });
-            }).ToList();
+                    var monthWorkInfo = new MonthWorkInfo { MonthName = Formatters.GetMonthAndYearNames(s.Year, s.Month), TotalSalary = s.TotalSalary };
+                    return s.UsersWorksDurationsInfos.Select(di => new StatisticWrapper
+                    {
+                        MonthWorkInfo = monthWorkInfo,
+                        User = di.User,
+                        WorkDuration = di.WorkDuration,
+                        TotalSalary = di.TotalSalary,
+                    });
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                await ExceptionsHandler.Handle(ex);
+            }
         }
 
         private void FormatChartStatistic()

@@ -1,6 +1,7 @@
 ﻿@using BlazorModalDialogs.Definitions
 @using QuickActions.Common.Specifications
 @using System.Globalization
+@using WorkTimer.App.Services
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
 @using WorkTimer.Web.Common.Utils
@@ -63,6 +64,9 @@
     [Inject]
     public IWorkPeriod WorkPeriodsService { get; set; }
 
+    [Inject]
+    public ExceptionsHandler ExceptionsHandler { get; set; }
+
     private DateTime? SelectedMonth
     {
         get => selectedMonth;
@@ -95,21 +99,29 @@
 
     private async Task LoadPeriodsData()
     {
-        if (SelectedMonth == null || SelectedMonth == default) return;
+        try
+        {
+            if (SelectedMonth == null || SelectedMonth == default) return;
 
-        workPeriods = await WorkPeriodsService.Read(
-            new Specification<WorkPeriod>(p => p.EndAt != null
-                && p.StartAt.Date >= SelectedMonth.Value.ToUniversalTime().Date
-                && p.EndAt.Value.Date < SelectedMonth.Value.ToUniversalTime().AddMonths(1).Date
-                && p.UserId == Params.Id),
-            0,
-            int.MaxValue
-        );
+            workPeriods = await WorkPeriodsService.Read(
+                new Specification<WorkPeriod>(p => p.EndAt != null
+                    && p.StartAt.Date >= SelectedMonth.Value.ToUniversalTime()
+                    && p.StartAt.Date < SelectedMonth.Value.ToUniversalTime().AddMonths(1)
+                    && p.UserId == Params.Id),
+                0,
+                int.MaxValue
+            );
 
-        workDuration = workPeriods.GetDuration();
-        durationSalary = CalculateTotalSalary(workDuration);
+            workDuration = workPeriods.GetDuration();
+            durationSalary = CalculateTotalSalary(workDuration);
 
-        StateHasChanged();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            await ExceptionsHandler.Handle(ex);
+            this.Cancel();
+        }
     }
 
     private decimal CalculateTotalSalary(TimeSpan workDuration)

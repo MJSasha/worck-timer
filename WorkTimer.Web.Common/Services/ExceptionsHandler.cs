@@ -28,7 +28,7 @@ namespace WorkTimer.App.Services
                 if (apiException.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden)
                 {
                     tokenAuthStateProvider.SetLogoutState();
-                    navigationManager.NavigateTo(Definitons.Pages.Logout.GetUrl());
+                    navigationManager.NavigateTo("/logout");
                 }
             }
             else

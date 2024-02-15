@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using QuickActions.Common.Data;
 using QuickActions.Common.Specifications;
+using WorkTimer.App.Services;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
 
@@ -15,6 +16,9 @@ namespace WorkTimer.Web.Pages.Users
 
         [Inject]
         protected IWorkPeriod workPeriodService { get; set; }
+
+        [Inject]
+        protected ExceptionsHandler exceptionsHandler { get; set; }
 
         private DateTime SelectedDate { get; set; }
         private Dictionary<int, double> MonthStatistic { get; set; }
@@ -43,7 +47,7 @@ namespace WorkTimer.Web.Pages.Users
             }
             catch (Exception ex)
             {
-                //await exceptionsHandler.Handle(ex);
+                await exceptionsHandler.Handle(ex);
             }
 
             IsLoading = false;
@@ -55,20 +59,16 @@ namespace WorkTimer.Web.Pages.Users
             try
             {
                 var selectedDate = new DateTime(SelectedDate.Year, SelectedDate.Month, dayNumber).Date;
-                var filter = new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.EndAt < selectedDate.AddDays(1).ToUniversalTime());
+                var filter = new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.StartAt < selectedDate.AddDays(1).ToUniversalTime());
                 filter &= new Specification<WorkPeriod>(sp => sp.UserId == CurrentSession.Data.Id);
 
                 DayPeriods = await workPeriodService.Read(filter, 0, int.MaxValue);
-                if (DayPeriods == null || !DayPeriods.Any())
-                {
-                    IsLoading = false;
-                    return;
-                }
-                SelectedDay = selectedDate;
+                if (DayPeriods == null || !DayPeriods.Any()) IsLoading = false;
+                else SelectedDay = selectedDate;
             }
             catch (Exception ex)
             {
-                //await exceptionsHandler.Handle(ex);
+                await exceptionsHandler.Handle(ex);
             }
         }
 

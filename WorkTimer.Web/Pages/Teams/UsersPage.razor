@@ -1,5 +1,6 @@
 ﻿@using QuickActions.Common.Data
 @using QuickActions.Common.Specifications
+@using WorkTimer.App.Services
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
 @using WorkTimer.Web.Dialogs
@@ -57,6 +58,9 @@
     [Inject]
     public DialogsService DialogsService { get; set; }
 
+    [Inject]
+    public ExceptionsHandler ExceptionsHandler { get; set; }
+
     private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
     private string searchString = "";
     private HashSet<User> selectedItems = new HashSet<User>();
@@ -106,6 +110,10 @@
             await LoadUsersInfo();
         }
         catch (ObjectDisposedException) { /* ignore */ }
+        catch (Exception ex)
+        {
+            await ExceptionsHandler.Handle(ex);
+        }
     }
 
     private async Task UpdateUser(User user)
@@ -122,6 +130,10 @@
             await LoadUsersInfo();
         }
         catch (ObjectDisposedException) { /* ignore */ }
+        catch (Exception ex)
+        {
+            await ExceptionsHandler.Handle(ex);
+        }
     }
 
     private async Task LoadUsersInfo()

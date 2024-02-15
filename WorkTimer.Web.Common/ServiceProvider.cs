@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using QuickActions.Common.Interfaces;
 using Refit;
+using WorkTimer.App.Services;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
 using WorkTimer.Web.Common.Services;
@@ -24,6 +25,7 @@ namespace WorkTimer.Web.Common
             };
 
             services
+                .AddTransient<ExceptionsHandler>()
                 .AddSingleton<IIdentity<User>>(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services), refitSettings))
                 .AddSingleton(RestService.For<IUsersIdentity>(CreateClient("UsersIdentity", services), refitSettings))
                 .AddSingleton(RestService.For<IUsers>(CreateClient("Users", services), refitSettings))

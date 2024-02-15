@@ -61,7 +61,7 @@ namespace WorkTimer.App.Pages
             try
             {
                 var selectedDate = new DateTime(SelectedDate.Year, SelectedDate.Month, dayNumber).Date;
-                var filter = new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.EndAt < selectedDate.AddDays(1).ToUniversalTime());
+                var filter = new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.StartAt < selectedDate.AddDays(1).ToUniversalTime());
                 filter &= new Specification<WorkPeriod>(sp => sp.UserId == CurrentSession.Data.Id);
 
                 DayPeriods = await workPeriodService.Read(filter, 0, int.MaxValue);
