@@ -4,6 +4,7 @@ using QuickActions.Api.Identity;
 using QuickActions.Api.Identity.IdentityCheck;
 using WorkTimer.Api;
 using WorkTimer.Api.Repository;
+using WorkTimer.Api.Services;
 using WorkTimer.Common.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +32,10 @@ builder.Services.AddIdentity<User>("session-key", rolesChecker: (s, r) => r.Cont
 
 builder.Services
     .AddTransient<UsersRepository>()
-    .AddTransient<WorkPeriodRepository>();
+    .AddTransient<WorkPeriodRepository>()
+
+    .AddTransient<WorkPeriodsService>()
+    ;
 
 var app = builder.Build();
 

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace WorkTimer.Web.Common.Utils
+﻿namespace WorkTimer.Web.Common.Utils
 {
     public static class Extensions
     {

@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using QuickActions.Common.Specifications;
 using WorkTimer.App.Services;
 using WorkTimer.Common.Interfaces;
-using WorkTimer.Common.Models;
 
 namespace WorkTimer.App.Pages
 {
@@ -16,7 +14,7 @@ namespace WorkTimer.App.Pages
         [Inject]
         protected ExceptionsHandler exceptionsHandler { get; set; }
 
-        private DateTime SelectedMonth { get => selectedMonth;set { selectedMonth = value; LoadData(); } }
+        private DateTime SelectedMonth { get => selectedMonth; set { selectedMonth = value; LoadData(); } }
         private Dictionary<int, double> MonthStatistic { get; set; }
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
 
