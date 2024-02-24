@@ -7,85 +7,92 @@
 
 <PageLayout IsLoading="IsLoading" PageTitle="Статистика">
     <Content>
-        <MudGrid Class="p-3" Justify="Justify.Center">
-            <MudItem xs="12">
-                <MudGrid Class="w-75 mx-auto">
-                    <MudItem xs="3">
-                        @if (!ShowForUser)
-                        {
-                            <MudSelect Clearable T="User" Label="Пользователь" @bind-Value="selectedUser" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                                @foreach (var user in users)
-                                {
-                                    <MudSelectItem Value="user">@user.Name (@user.Email)</MudSelectItem>
-                                }
-                            </MudSelect>
-                        }
-                    </MudItem>
-                    <MudItem xs="3">
-                        <MudDatePicker
-                            DateFormat="yyyy/MM"
-                            OpenTo="OpenTo.Year"
-                            FixDay="1"
-                            Variant="Variant.Outlined"
-                            Required
-                            @bind-Date="startDate"
-                            Label="Начало"/>
-                    </MudItem>
-                    <MudItem xs="3">
-                        <MudDatePicker
-                            DateFormat="yyyy/MM"
-                            OpenTo="OpenTo.Year"
-                            FixDay="1"
-                            Variant="Variant.Outlined"
-                            Required
-                            @bind-Date="endDate"
-                            Label="Конец"/>
-                    </MudItem>
-                    <MudItem Class="my-auto" xs="3">
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RefreshData">Отфильтровать</MudButton>
-                    </MudItem>
-                </MudGrid>
-            </MudItem>
+        <div>
 
-            @if (statistic != null)
-            {
-                <MudItem>
-                        <MudTable Height="30rem" Hover FixedHeader Dense Items="@statistic" GroupBy="@groupDefinition">
-                            <HeaderContent>
-                                <MudTh>Пользователь</MudTh>
-                                <MudTh>Время работы</MudTh>
-                                <MudTh>Оклад</MudTh>
-                            </HeaderContent>
-                            <GroupHeaderTemplate>
-                                <MudTh Style="font-weight: bold; color: var(--mud-palette-secondary)" colspan="3">
-                                    <div class="d-flex flex-row">
-                                        @(((MonthWorkInfo)context.Key).MonthName)
-                                        <div class="ms-auto">
-                                            @(((MonthWorkInfo)context.Key).TotalSalary.ToString("N2")) ₽
-                                        </div>
-                                    </div>
-                                </MudTh>
-                            </GroupHeaderTemplate>
-                            <RowTemplate>
-                                <MudTd DataLabel="Пользователь">@context.User.Name</MudTd>
-                                <MudTd DataLabel="Время">@context.WorkDuration.Humanize()</MudTd>
-                                <MudTd DataLabel="Оклад">@context.TotalSalary.ToString("N2") ₽</MudTd>
-                            </RowTemplate>
-                        </MudTable>
-                </MudItem>
-                <MudItem>
-                    <MudPaper Height="30rem" Class="p-3">
-                        <MudStack Class="w-100 h-100" Row>
-                            <MudChart CanHideSeries ChartType="ChartType.Line" ChartSeries="@series" XAxisLabels="@xAxisLabels" Width="100%" ChartOptions="options"></MudChart>
-                            @if (showDonutChart)
+            <MudGrid Class="p-3" Justify="Justify.Center">
+                <MudItem xs="12">
+                    <MudGrid Class="w-75 mx-auto">
+                        <MudItem xs="3">
+                            @if (!ShowForUser)
                             {
-                                <MudDivider Vertical />
-                                <MudChart ChartType="ChartType.Donut" InputData="@donutData" @bind-SelectedIndex="donutSelectedIndex" Width="100%" InputLabels="@donutLabels" />
+                                <MudSelect Clearable T="User" Label="Пользователь" @bind-Value="selectedUser" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                                    @foreach (var user in users)
+                                    {
+                                        <MudSelectItem Value="user">@user.Name (@user.Email)</MudSelectItem>
+                                    }
+                                </MudSelect>
                             }
-                        </MudStack>
-                    </MudPaper>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudDatePicker
+                                DateFormat="yyyy/MM"
+                                OpenTo="OpenTo.Year"
+                                FixDay="1"
+                                Variant="Variant.Outlined"
+                                Required
+                                @bind-Date="startDate"
+                                Label="Начало"/>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudDatePicker
+                                DateFormat="yyyy/MM"
+                                OpenTo="OpenTo.Year"
+                                FixDay="1"
+                                Variant="Variant.Outlined"
+                                Required
+                                @bind-Date="endDate"
+                                Label="Конец"/>
+                        </MudItem>
+                        <MudItem Class="my-auto" xs="3">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RefreshData">Отфильтровать</MudButton>
+                        </MudItem>
+                    </MudGrid>
                 </MudItem>
+
+                @if (statistic != null)
+                {
+                    <MudItem>
+                            <MudTable Height="30rem" Hover FixedHeader Dense Items="@statistic" GroupBy="@groupDefinition">
+                                <HeaderContent>
+                                    <MudTh>Пользователь</MudTh>
+                                    <MudTh>Время работы</MudTh>
+                                    <MudTh>Оклад</MudTh>
+                                </HeaderContent>
+                                <GroupHeaderTemplate>
+                                    <MudTh Style="font-weight: bold; color: var(--mud-palette-secondary)" colspan="3">
+                                        <div class="d-flex flex-row">
+                                            @(((MonthWorkInfo)context.Key).MonthName)
+                                            <div class="ms-auto">
+                                                @(((MonthWorkInfo)context.Key).TotalSalary.ToString("N2")) ₽
+                                            </div>
+                                        </div>
+                                    </MudTh>
+                                </GroupHeaderTemplate>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Пользователь">@context.User.Name</MudTd>
+                                    <MudTd DataLabel="Время">@context.WorkDuration.Humanize()</MudTd>
+                                    <MudTd DataLabel="Оклад">@context.TotalSalary.ToString("N2") ₽</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+                    </MudItem>
+                    <MudItem>
+                        <MudPaper Height="30rem" Class="p-3">
+                            <MudStack Class="w-100 h-100" Row>
+                                <MudChart CanHideSeries ChartType="ChartType.Line" ChartSeries="@series" XAxisLabels="@xAxisLabels" Width="100%" ChartOptions="options"></MudChart>
+                                @if (showDonutChart)
+                                {
+                                    <MudDivider Vertical />
+                                    <MudChart ChartType="ChartType.Donut" InputData="@donutData" @bind-SelectedIndex="donutSelectedIndex" Width="100%" InputLabels="@donutLabels" />
+                                }
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                }
+            </MudGrid>
+            @if (!ShowForUser && startDate != null && endDate != null)
+            {
+                <MudFab Target="_blank" Href="@Pages.ReportsExportPage.GetUrl(AppSettings.ApiUri, startDate.Value.ToUniversalTime(), endDate.Value.AddMonths(1).ToUniversalTime())"  Style="position: absolute; bottom: 20px; right: 20px;" Color="Color.Primary" StartIcon="@Icons.Material.Rounded.ImportExport" />
             }
-        </MudGrid>
+        </div>
     </content>
 </PageLayout>

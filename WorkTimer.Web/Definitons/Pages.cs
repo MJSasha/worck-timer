@@ -78,6 +78,18 @@ namespace WorkTimer.Web.Definitons
             }
         }
 
+        public static class ReportsExportPage
+        {
+            private static string pageUrl = "/Reports";
+
+            public static string GetUrl(string apiUrl, DateTime startDate, DateTime endDate)
+            {
+                return BuildPageUrl($"{apiUrl}{pageUrl}",
+                    ("startDate", startDate),
+                    ("endDate", endDate));
+            }
+        }
+
         private static string BuildPageUrl(string url, params (string name, object value)[] parameters)
         {
             StringBuilder stringBuilder = new(url);

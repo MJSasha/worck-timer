@@ -6,6 +6,7 @@ using WorkTimer.App.Services;
 using WorkTimer.Common.Data;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
+using WorkTimer.Web.Common;
 using WorkTimer.Web.Common.Utils;
 
 namespace WorkTimer.Web.Pages.Teams
@@ -23,6 +24,9 @@ namespace WorkTimer.Web.Pages.Teams
 
         [Inject]
         public ExceptionsHandler ExceptionsHandler { get; set; }
+
+        [Inject]
+        public AppSettings AppSettings { get; set; }
 
         [Parameter]
         public bool ShowForUser

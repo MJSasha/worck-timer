@@ -3,6 +3,10 @@ using QuickActions.Api;
 using QuickActions.Api.Identity;
 using QuickActions.Api.Identity.IdentityCheck;
 using WorkTimer.Api;
+using WorkTimer.Api.Reports.Xlsx;
+using WorkTimer.Api.Reports.Xlsx.Configurations;
+using WorkTimer.Api.Reports.Xlsx.Definitions;
+using WorkTimer.Api.Reports.Xlsx.ReportsScheetsFillers;
 using WorkTimer.Api.Repository;
 using WorkTimer.Api.Services;
 using WorkTimer.Common.Models;
@@ -33,8 +37,11 @@ builder.Services.AddIdentity<User>("session-key", rolesChecker: (s, r) => r.Cont
 builder.Services
     .AddTransient<UsersRepository>()
     .AddTransient<WorkPeriodRepository>()
-
     .AddTransient<WorkPeriodsService>()
+
+    .AddTransient<XlsxReportService<UsersReportConfig>>()
+    .AddTransient<IExcelReportSheetFiller<UsersReportConfig>, UsersSheetFiller>()
+    .AddSingleton<ReportStyle>()
     ;
 
 var app = builder.Build();

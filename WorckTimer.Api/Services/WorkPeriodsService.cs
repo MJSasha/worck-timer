@@ -40,7 +40,7 @@ namespace WorkTimer.Api.Services
             return result;
         }
 
-        public async Task<List<UsersWorksDurationsReportByMonth>> GetUsersWorksDurationsReportByMonth(DateTime startAt, DateTime endAt, int? userId)
+        public async Task<List<UsersWorksDurationsReportByMonth>> GetUsersWorksDurationsReportByMonth(DateTime startAt, DateTime endAt, int? userId = null)
         {
             var specification = new Specification<WorkPeriod>(s => s.EndAt != null && s.StartAt.Date <= endAt && s.StartAt.Date > startAt);
             if (userId.HasValue) specification &= new Specification<WorkPeriod>(s => s.UserId == userId.Value);
