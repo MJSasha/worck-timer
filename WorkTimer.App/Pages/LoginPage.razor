@@ -26,10 +26,6 @@
                             <input placeholder="Пароль" type="password" id="password" class="form-control" @bind="AuthModel.Password" />
                         </div>
 
-                        <div class="mb-3">
-                            <input placeholder="Бекенд URL" class="form-control" @bind-value="ApiUrl" />
-                        </div>
-
                         <div class="d-flex justify-content-center w-100 h-100">
                             <button type="submit" class="btn btn-primary login-button" @onclick="() => IsLoginFailed = false">Войти</button>
                         </div>

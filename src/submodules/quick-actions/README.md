@@ -1,1 +1,0 @@
-If you want to see an example of how to use it, take a look at the `samples` branch
