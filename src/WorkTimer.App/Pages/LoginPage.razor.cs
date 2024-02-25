@@ -4,6 +4,7 @@ using QuickActions.Web.Identity.Services;
 using WorkTimer.Common.Data;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
+using WorkTimer.Web.Common;
 
 namespace WorkTimer.App.Pages
 {
@@ -20,6 +21,15 @@ namespace WorkTimer.App.Pages
 
         [Inject]
         protected SessionService<User> sessionService { get; set; }
+
+        [Inject]
+        protected AppSettings appSettings { get; set; }
+
+        private string ApiUrl
+        {
+            get => appSettings.ApiUri;
+            set => appSettings.ApiUri = value;
+        }
 
         private AuthModel AuthModel { get; set; } = new();
         private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
