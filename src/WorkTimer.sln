@@ -5,8 +5,6 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Api", "WorckTimer.Api\WorkTimer.Api.csproj", "{A5118981-1BA6-4B23-9F9E-AFA910BF57F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Data", "WorkTimer.Data\WorkTimer.Data.csproj", "{20784E16-5EA8-4F72-AE58-10D7FD9511B3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Common", "WorkTimer.Common\WorkTimer.Common.csproj", "{7CE6013B-E143-4AA9-8798-BD3CF98D22A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.App", "WorkTimer.App\WorkTimer.App.csproj", "{3C0AF861-CB55-4AD4-93CE-0548F4C712AA}"
@@ -40,10 +38,6 @@ Global
 		{A5118981-1BA6-4B23-9F9E-AFA910BF57F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5118981-1BA6-4B23-9F9E-AFA910BF57F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5118981-1BA6-4B23-9F9E-AFA910BF57F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20784E16-5EA8-4F72-AE58-10D7FD9511B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20784E16-5EA8-4F72-AE58-10D7FD9511B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20784E16-5EA8-4F72-AE58-10D7FD9511B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20784E16-5EA8-4F72-AE58-10D7FD9511B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CE6013B-E143-4AA9-8798-BD3CF98D22A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7CE6013B-E143-4AA9-8798-BD3CF98D22A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CE6013B-E143-4AA9-8798-BD3CF98D22A5}.Release|Any CPU.ActiveCfg = Release|Any CPU

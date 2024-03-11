@@ -20,7 +20,6 @@
     <ProjectReference Include="..\submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj" />
     <ProjectReference Include="..\submodules\quick-actions\QuickActions.Web.Identity\QuickActions.Web.Identity.csproj" />
     <ProjectReference Include="..\WorkTimer.Common\WorkTimer.Common.csproj" />
-    <ProjectReference Include="..\WorkTimer.Data\WorkTimer.Data.csproj" />
   </ItemGroup>
 
 </Project>

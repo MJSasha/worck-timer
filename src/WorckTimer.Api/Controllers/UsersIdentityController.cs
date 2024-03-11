@@ -6,6 +6,7 @@ using QuickActions.Common.Specifications;
 using System.Net;
 using System.Web.Http;
 using WorkTimer.Api.Repository;
+using WorkTimer.Api.Utils;
 using WorkTimer.Common.Data;
 using WorkTimer.Common.Interfaces;
 using WorkTimer.Common.Models;
@@ -20,7 +21,8 @@ namespace WorkTimer.Api.Controllers
     {
         private readonly UsersRepository usersRepository;
 
-        public UsersIdentityController(SessionsService<User> sessionsService, UsersRepository usersRepository) : base(sessionsService)
+        public UsersIdentityController(SessionsService<User> sessionsService, UsersRepository usersRepository) : base(
+            sessionsService)
         {
             this.usersRepository = usersRepository;
         }
@@ -28,9 +30,15 @@ namespace WorkTimer.Api.Controllers
         [HttpPost("login")]
         public async Task<string> Login(AuthModel authModel)
         {
-            if (string.IsNullOrWhiteSpace(authModel.Email) || string.IsNullOrWhiteSpace(authModel.Password)) throw new HttpResponseException(HttpStatusCode.BadRequest);
+            if (string.IsNullOrWhiteSpace(authModel.Email) || string.IsNullOrWhiteSpace(authModel.Password))
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-            var user = await usersRepository.Read(new Specification<User>(u => u.Email == authModel.Email && u.Password == authModel.Password)) ?? throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "User not found." });
+            var user = await usersRepository.Read(new Specification<User>(u =>
+                u.Email == authModel.Email && u.Credentials.Password == authModel.Password.GetHash()));
+            if (user == null)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "User not found." });
+            }
 
             return sessionsService.CreateSession(new Session<User> { Data = user });
         }

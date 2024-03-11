@@ -17,7 +17,10 @@
                      <MudItem Class="w-100">
                          <MudTextField Required Label="Имя" @bind-Value="Params.User.Name" For="@(() => Params.User.Name)" />
                          <MudTextField Required Label="Почта" Class="mt-3" @bind-Value="Params.User.Email" For="@(() => Params.User.Email)" />
-                         <MudTextField Required Label="Пароль" Class="mt-3" @bind-Value="Params.User.Password" For="@(() => Params.User.Password)" InputType="InputType.Password" />
+                         @if (Params.User.Credentials != null)
+                         {
+                            <MudTextField Required Label="Пароль" Class="mt-3" @bind-Value="Params.User.Credentials.Password" For="@(() => Params.User.Credentials.Password)" InputType="InputType.Password" />
+                         }
                          <MudSelect Dense T="UserRole" Required @bind-Value="Params.User.Role" Label="Роль" For="@(() => Params.User.Role)">
                              @foreach (UserRole item in Enum.GetValues(typeof(UserRole)))
                             {
@@ -40,6 +43,16 @@
     protected void OnKeyEnterPressed()
     {
         this.Close(Params.User);
+    }
+
+    protected override void OnAfterShow()
+    {
+        if (Params.User.Credentials == null)
+        {
+            Params.User.Credentials = new();
+            StateHasChanged();
+        }
+        base.OnAfterShow();
     }
 
     private void OnValidSubmit(EditContext context)
