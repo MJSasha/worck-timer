@@ -56,7 +56,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\.editorconfig" Link=".editorconfig" />
       <None Include="Components\PageLayout.razor" />
     </ItemGroup>
 

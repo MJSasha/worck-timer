@@ -24,7 +24,16 @@ namespace WorkTimer.Web.Pages.Users
         private Dictionary<int, double> MonthStatistic { get; set; }
         private DateTime SelectedDay { get; set; }
         private List<WorkPeriod> DayPeriods { get; set; }
-        private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
+
+        private bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                isLoading = value;
+                StateHasChanged();
+            }
+        }
 
         private bool isLoading;
 
@@ -62,7 +71,7 @@ namespace WorkTimer.Web.Pages.Users
                 var filter = new Specification<WorkPeriod>(sp => sp.StartAt >= selectedDate.ToUniversalTime() && sp.StartAt < selectedDate.AddDays(1).ToUniversalTime());
                 filter &= new Specification<WorkPeriod>(sp => sp.UserId == CurrentSession.Data.Id);
 
-                DayPeriods = await workPeriodService.Read(filter, 0, int.MaxValue);
+                DayPeriods = await workPeriodService.ReadMany(filter, 0, int.MaxValue);
                 if (DayPeriods == null || !DayPeriods.Any()) IsLoading = false;
                 else SelectedDay = selectedDate;
             }

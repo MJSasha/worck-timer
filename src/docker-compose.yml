@@ -1,0 +1,12 @@
+﻿services:
+  worktimer.api:
+    image: worktimer.api
+    build:
+      context: .
+      dockerfile: WorckTimer.Api/Dockerfile
+
+  worktimer.web:
+    image: worktimer.web
+    build:
+      context: .
+      dockerfile: WorkTimer.Web/Dockerfile

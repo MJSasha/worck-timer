@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2F8938F-143D-46A8-8D7F-25B673FAE4D0}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Api", "submodules\quick-actions\QuickActions.Api\QuickActions.Api.csproj", "{D05A8CBA-0719-479B-8CB9-A36106C77E09}"
