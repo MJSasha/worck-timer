@@ -4,9 +4,14 @@
     build:
       context: .
       dockerfile: WorckTimer.Api/Dockerfile
+    ports:
+      - 8080:8080
 
   worktimer.web:
     image: worktimer.web
     build:
       context: .
       dockerfile: WorkTimer.Web/Dockerfile
+    ports:
+      - 5016:5016
+      - 7257:7257

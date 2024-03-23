@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj" />
+    <PackageReference Include="Refit" Version="7.0.0" />
+    <PackageReference Include="Serialize.Linq" Version="3.0.134" />
   </ItemGroup>
 
 </Project>
