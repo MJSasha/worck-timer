@@ -1,9 +1,22 @@
 ﻿services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'work-timer-db'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3306:3306
+        
   worktimer.api:
     image: worktimer.api
     build:
       context: .
       dockerfile: WorckTimer.Api/Dockerfile
+    depends_on:
+      - mysql
     ports:
       - 8080:8080
 
@@ -12,6 +25,8 @@
     build:
       context: .
       dockerfile: WorkTimer.Web/Dockerfile
+    depends_on: 
+      - mysql
     ports:
       - 5016:5016
       - 7257:7257
