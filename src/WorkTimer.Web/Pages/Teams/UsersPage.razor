@@ -1,22 +1,21 @@
-﻿@using QuickActions.Common.Data
+﻿@page "/users"
+@using WorkTimer.Common.Models
+@using QuickActions.Common.Data
 @using QuickActions.Common.Specifications
 @using WorkTimer.App.Services
 @using WorkTimer.Common.Interfaces
-@using WorkTimer.Common.Models
 @using WorkTimer.Web.Dialogs
 @using WorkTimer.Web.Dialogs.CreateOrEditUserDialog
-
-@page "/users"
 
 @attribute [Authorize]
 
 <PageLayout IsLoading="IsLoading" PageTitle="Статистика">
     <Content>
         <div class="d-flex justify-content-center w-100 p-3">
-            <MudTable Hover Striped Style="min-width: 60%" Items="@Users" OnRowClick="new EventCallback<TableRowClickEventArgs<User>>(this, RowClickEvent)" Filter="new Func<User,bool>(FilterUsers)">
+            <MudTable Hover Striped Style="min-width: 60%" Items="@Users" OnRowClick="new EventCallback<TableRowClickEventArgs<User>>(this, RowClickEvent)" Filter="new Func<User, bool>(FilterUsers)">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Пользователи</MudText>
-                    <MudSpacer />
+                    <MudSpacer/>
                     <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 </ToolBarContent>
                 <HeaderContent>
@@ -34,16 +33,16 @@
                     <MudTd Style="text-align:right">
                         @if (CurrentSession.Data.Id != context.Id)
                         {
-                            <MudIconButton OnClick="() => UpdateUser(context)" Icon="@Icons.Material.Filled.Edit" Color="Color.Secondary" Size="Size.Small" />
+                            <MudIconButton OnClick="() => UpdateUser(context)" Icon="@Icons.Material.Filled.Edit" Color="Color.Secondary" Size="Size.Small"/>
                         }
                     </MudTd>
                 </RowTemplate>
                 <PagerContent>
-                    <MudTablePager />
+                    <MudTablePager/>
                 </PagerContent>
             </MudTable>
         </div>
-        <MudFab OnClick="CreateUser" Style="position: absolute; bottom: 20px; right: 20px;" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
+        <MudFab OnClick="CreateUser" Style="position: absolute; bottom: 20px; right: 20px;" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"/>
     </Content>
 </PageLayout>
 
@@ -61,7 +60,16 @@
     [Inject]
     public ExceptionsHandler ExceptionsHandler { get; set; }
 
-    private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
+    private bool IsLoading
+    {
+        get => isLoading;
+        set
+        {
+            isLoading = value;
+            StateHasChanged();
+        }
+    }
+
     private string searchString = "";
     private HashSet<User> selectedItems = new HashSet<User>();
 
@@ -94,7 +102,10 @@
         {
             await DialogsService.Show<UsersDataDialog, User, object>(user);
         }
-        catch (ObjectDisposedException) { /* ignore */ }
+        catch (ObjectDisposedException)
+        {
+            /* ignore */
+        }
     }
 
     private async Task CreateUser()
@@ -109,7 +120,10 @@
             await UsersService.Create(user);
             await LoadUsersInfo();
         }
-        catch (ObjectDisposedException) { /* ignore */ }
+        catch (ObjectDisposedException)
+        {
+            /* ignore */
+        }
         catch (Exception ex)
         {
             await ExceptionsHandler.Handle(ex);
@@ -126,10 +140,14 @@
                 EditMode = true
             });
 
+            if (userToUpdate.Credentials?.Password == null) userToUpdate.Credentials = null;
             await UsersService.Update(userToUpdate);
             await LoadUsersInfo();
         }
-        catch (ObjectDisposedException) { /* ignore */ }
+        catch (ObjectDisposedException)
+        {
+            /* ignore */
+        }
         catch (Exception ex)
         {
             await ExceptionsHandler.Handle(ex);
@@ -139,7 +157,8 @@
     private async Task LoadUsersInfo()
     {
         IsLoading = true;
-        Users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
+        Users = await UsersService.ReadMany(new Specification<User>(), 0, int.MaxValue);
         IsLoading = false;
     }
+
 }

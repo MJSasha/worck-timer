@@ -56,13 +56,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\.editorconfig" Link=".editorconfig" />
       <None Include="Components\PageLayout.razor" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj" />
-      <ProjectReference Include="..\submodules\quick-actions\QuickActions.Web.Identity\QuickActions.Web.Identity.csproj" />
+      <ProjectReference Include="..\..\submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj" />
+      <ProjectReference Include="..\..\submodules\quick-actions\QuickActions.Web.Identity\QuickActions.Web.Identity.csproj" />
       <ProjectReference Include="..\WorkTimer.Common\WorkTimer.Common.csproj" />
       <ProjectReference Include="..\WorkTimer.Web.Common\WorkTimer.Web.Common.csproj" />
     </ItemGroup>

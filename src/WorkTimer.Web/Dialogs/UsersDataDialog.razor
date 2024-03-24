@@ -1,12 +1,9 @@
-﻿@using BlazorModalDialogs.Definitions
-@using QuickActions.Common.Specifications
-@using System.Globalization
-@using WorkTimer.App.Services
+﻿@using WorkTimer.Common.Utils
 @using WorkTimer.Common.Interfaces
 @using WorkTimer.Common.Models
-@using WorkTimer.Web.Common.Utils
-@using WorkTimer.Common.Utils
-
+@using WorkTimer.App.Services
+@using QuickActions.Common.Specifications
+@using BlazorModalDialogs.Definitions
 @inherits Dialog<User, object>
 
 <DialogLayout IsDisplayed="IsDisplayed">
@@ -15,15 +12,15 @@
             <MudGrid>
                 <MudItem xs="4">
                     <MudForm ReadOnly>
-                        <MudTextField Variant="Variant.Filled" T="string" Label="Имя" Value="Params.Name" />
-                        <MudTextField Variant="Variant.Filled" T="string" Label="Логин" Value="Params.Email" />
-                        <MudTextField Variant="Variant.Filled" T="string" Label="Роль" Value="Params.Role.ToString()" />
-                        <MudNumericField Format="N2" Variant="Variant.Filled" T="decimal" Label="Оклад" Value="Params.Salary" />
+                        <MudTextField Variant="Variant.Filled" T="string" Label="Имя" Value="Params.Name"/>
+                        <MudTextField Variant="Variant.Filled" T="string" Label="Логин" Value="Params.Email"/>
+                        <MudTextField Variant="Variant.Filled" T="string" Label="Роль" Value="Params.Role.ToString()"/>
+                        <MudNumericField Format="N2" Variant="Variant.Filled" T="decimal" Label="Оклад" Value="Params.Salary"/>
                         @if (workPeriods != null)
                         {
-                            <MudDivider Class="my-3" />
-                            <MudTextField Variant="Variant.Filled" T="string" Label="Время работы" Value="workDuration.Humanize()" />
-                            <MudNumericField Variant="Variant.Filled" T="decimal" Format="N2" decimal Label="Оплата за месяц" Value="durationSalary" />
+                            <MudDivider Class="my-3"/>
+                            <MudTextField Variant="Variant.Filled" T="string" Label="Время работы" Value="workDuration.Humanize()"/>
+                            <MudNumericField Variant="Variant.Filled" T="decimal" Format="N2" decimal Label="Оплата за месяц" Value="durationSalary"/>
                         }
                     </MudForm>
                 </MudItem>
@@ -103,11 +100,11 @@
         {
             if (SelectedMonth == null || SelectedMonth == default) return;
 
-            workPeriods = await WorkPeriodsService.Read(
+            workPeriods = await WorkPeriodsService.ReadMany(
                 new Specification<WorkPeriod>(p => p.EndAt != null
-                    && p.StartAt.Date >= SelectedMonth.Value.ToUniversalTime()
-                    && p.StartAt.Date < SelectedMonth.Value.ToUniversalTime().AddMonths(1)
-                    && p.UserId == Params.Id),
+                                                   && p.StartAt.Date >= SelectedMonth.Value.ToUniversalTime()
+                                                   && p.StartAt.Date < SelectedMonth.Value.ToUniversalTime().AddMonths(1)
+                                                   && p.UserId == Params.Id),
                 0,
                 int.MaxValue
             );
@@ -130,4 +127,5 @@
 
         return (decimal)(Params.Salary / (workDaysCount * 8)) * (decimal)workDuration.TotalHours;
     }
+
 }

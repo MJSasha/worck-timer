@@ -44,7 +44,16 @@ namespace WorkTimer.Web.Pages.Teams
             }
         }
 
-        private bool IsLoading { get => isLoading; set { isLoading = value; StateHasChanged(); } }
+        private bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                isLoading = value;
+                StateHasChanged();
+            }
+        }
+
         private List<UsersWorksDurationsReportByMonth> usersWorksDurationsReports;
         private List<StatisticWrapper> statistic;
         private List<User> users;
@@ -91,7 +100,7 @@ namespace WorkTimer.Web.Pages.Teams
                 }
                 else
                 {
-                    users = await UsersService.Read(new Specification<User>(), 0, int.MaxValue);
+                    users = await UsersService.ReadMany(new Specification<User>(), 0, int.MaxValue);
                 }
 
                 await RefreshData();

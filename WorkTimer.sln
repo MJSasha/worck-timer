@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Api", "WorckTimer.Api\WorkTimer.Api.csproj", "{A5118981-1BA6-4B23-9F9E-AFA910BF57F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Api", "src\WorckTimer.Api\WorkTimer.Api.csproj", "{A5118981-1BA6-4B23-9F9E-AFA910BF57F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Common", "WorkTimer.Common\WorkTimer.Common.csproj", "{7CE6013B-E143-4AA9-8798-BD3CF98D22A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Common", "src\WorkTimer.Common\WorkTimer.Common.csproj", "{7CE6013B-E143-4AA9-8798-BD3CF98D22A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.App", "WorkTimer.App\WorkTimer.App.csproj", "{3C0AF861-CB55-4AD4-93CE-0548F4C712AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.App", "src\WorkTimer.App\WorkTimer.App.csproj", "{3C0AF861-CB55-4AD4-93CE-0548F4C712AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Web", "WorkTimer.Web\WorkTimer.Web.csproj", "{9C5146C2-9BA5-4CDC-ABEC-BA9026190E21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Web", "src\WorkTimer.Web\WorkTimer.Web.csproj", "{9C5146C2-9BA5-4CDC-ABEC-BA9026190E21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Web.Common", "WorkTimer.Web.Common\WorkTimer.Web.Common.csproj", "{8596246A-3084-4868-B9F6-FBF6129048A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Web.Common", "src\WorkTimer.Web.Common\WorkTimer.Web.Common.csproj", "{8596246A-3084-4868-B9F6-FBF6129048A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{1A5B9118-4805-411A-AAF2-BA280F0E9959}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2F8938F-143D-46A8-8D7F-25B673FAE4D0}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Api", "submodules\quick-actions\QuickActions.Api\QuickActions.Api.csproj", "{D05A8CBA-0719-479B-8CB9-A36106C77E09}"

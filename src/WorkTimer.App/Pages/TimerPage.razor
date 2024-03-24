@@ -5,17 +5,17 @@
 <PageLayout IsLoading="IsLoading" ShowTabs>
     <Header>
         <div class="d-flex flex-row justify-content-between align-items-center p-3">
-            <div class="col-2" />
+            <div class="col-2"/>
             <div class="page-title">
-                Таймер
+                РўР°Р№РјРµСЂ
             </div>
             <div class="col-2 d-flex justify-content-end align-items-center">
                 <div class="dropdown">
                     <button class="btn btn-round" type="button" id="menu" data-bs-toggle="dropdown" aria-expanded="false">
-                        <SvgImage Src="/img/dots.svg#icon" class="dots-icon" />
+                        <SvgImage Src="/img/dots.svg#icon" class="dots-icon"/>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="menu">
-                        <div class="dropdown-item text-danger" @onclick="_ => { tokenAuthStateProvider.SetLogoutState(); navigationManager.NavigateTo(Definitons.Pages.Logout.GetUrl()); }">Выход</div>
+                        <div class="dropdown-item text-danger" @onclick="_ => { tokenAuthStateProvider.SetLogoutState(); navigationManager.NavigateTo(Definitons.Pages.Logout.GetUrl()); }">Р’С‹С…РѕРґ</div>
                     </div>
                 </div>
             </div>
@@ -25,25 +25,25 @@
         <div class="spacing-3 p-3">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="round-button" @onclick="async _ => await TimerButtonClick(!TimerIsRunning)">
-                    @(TimerIsRunning ? CurrentWorkTime.Humanize() : "Старт")
+                    @(TimerIsRunning ? CurrentWorkTime.Humanize() : "РЎС‚Р°СЂС‚")
                 </div>
             </div>
         </div>
     </Subheader>
     <Content>
         <div class="spacing-3 p-3">
-            <div class="section-title">Периоды за сегодня</div>
+            <div class="section-title">РџРµСЂРёРѕРґС‹ Р·Р° СЃРµРіРѕРґРЅСЏ</div>
 
             <div class="d-flex flex-row justify-content-between">
                 <div>
-                    <b>Начало</b>
+                    <b>РќР°С‡Р°Р»Рѕ</b>
                 </div>
                 <div>
-                    <b>Конец</b>
+                    <b>РљРѕРЅРµС†</b>
                 </div>
             </div>
 
-            <div class="separator-horizontal" />
+            <div class="separator-horizontal"/>
 
             @foreach (var period in TodayPeriods)
             {
@@ -58,7 +58,7 @@
 
                 @if (TodayPeriods.IndexOf(period) < TodayPeriods.Count - 1)
                 {
-                    <div class="separator-horizontal" />
+                    <div class="separator-horizontal"/>
                 }
             }
         </div>

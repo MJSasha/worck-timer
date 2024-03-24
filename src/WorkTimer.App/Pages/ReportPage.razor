@@ -6,20 +6,22 @@
     <Header>
         <div class="d-flex flex-row justify-content-center p-3">
             <div class="page-title">
-                Отчет
+                РћС‚С‡РµС‚
             </div>
         </div>
     </Header>
     <Content>
         <div class="spacing-3 p-3">
-            <input class="form-control" type="month" @bind="SelectedMonth" max="@DateTime.Today.ToString("yyyy-MM")" />
+            <input class="form-control" type="month" @bind="SelectedMonth" max="@DateTime.Today.ToString("yyyy-MM")"/>
 
-            <div class="section-title">Часы за @SelectedMonth.GetMonthName() @SelectedMonth.Year</div>
+            <div class="section-title">РћС‚С‡РµС‚ Р·Р° @SelectedMonth.GetMonthName() @SelectedMonth.Year</div>
 
-            <div class="d-flex flex-row align-items-center"><div class="subsection-title me-1">Всего за месяц:</div> @(TimeSpan.FromHours(MonthStatistic.Sum(s => (24 * s.Value) / 100)).Humanize())</div>
+            <div class="d-flex flex-row align-items-center">
+                <div class="subsection-title me-1">Р’СЃРµРіРѕ Р·Р° РјРµСЃСЏС†:</div> @(TimeSpan.FromHours(MonthStatistic.Sum(s => (24 * s.Value) / 100)).Humanize())
+            </div>
 
-            <div class="subsection-title">По дням:</div>
-            <div class="separator-horizontal" />
+            <div class="subsection-title">РџРѕ РјРµСЃСЏС†Р°Рј:</div>
+            <div class="separator-horizontal"/>
 
             @{
                 for (int i = 0; i < DateTime.DaysInMonth(SelectedMonth.Year, SelectedMonth.Month); i++)
@@ -37,14 +39,14 @@
                             }
                             else
                             {
-                                @:Нет данных
+                                @:РќРµС‚ РґР°РЅРЅС‹С…
                             }
                         </div>
                     </div>
 
                     @if (j < DateTime.DaysInMonth(SelectedMonth.Year, SelectedMonth.Month))
                     {
-                        <div class="separator-horizontal" />
+                        <div class="separator-horizontal"/>
                     }
                 }
             }
