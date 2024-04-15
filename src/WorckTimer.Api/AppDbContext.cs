@@ -11,6 +11,11 @@ namespace WorkTimer.Api
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<Credentials> Credentials { get; set; }
 
+
+        public AppDbContext()
+        {
+        }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

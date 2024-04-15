@@ -15,20 +15,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<IdentityFilter<User>>();
-});
+builder.Services.AddControllers(options => { options.Filters.Add<IdentityFilter<User>>(); });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #if DEBUG
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(databaseName: "TestDatabase"));
-#else
+// builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(databaseName: "TestDatabase"));
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))),
     contextLifetime: ServiceLifetime.Transient);
+#else
 #endif
 
 builder.Services.AddHttpContextAccessor();
@@ -38,7 +35,6 @@ builder.Services
     .AddTransient<UsersRepository>()
     .AddTransient<WorkPeriodRepository>()
     .AddTransient<WorkPeriodsService>()
-
     .AddTransient<XlsxReportService<UsersReportConfig>>()
     .AddTransient<IExcelReportSheetFiller<UsersReportConfig>, UsersSheetFiller>()
     .AddSingleton<ReportStyle>()

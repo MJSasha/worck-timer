@@ -1,7 +1,6 @@
-﻿@using WorkTimer.Common.Models
-
-@page "/statistic"
+﻿@page "/statistic"
 @page "/statistic/{ShowForUser:bool}"
+@using WorkTimer.Common.Models
 
 @attribute [Authorize]
 
@@ -52,37 +51,37 @@
                 @if (statistic != null)
                 {
                     <MudItem>
-                            <MudTable Height="30rem" Hover FixedHeader Dense Items="@statistic" GroupBy="@groupDefinition">
-                                <HeaderContent>
-                                    <MudTh>Пользователь</MudTh>
-                                    <MudTh>Время работы</MudTh>
-                                    <MudTh>Оклад</MudTh>
-                                </HeaderContent>
-                                <GroupHeaderTemplate>
-                                    <MudTh Style="font-weight: bold; color: var(--mud-palette-secondary)" colspan="3">
-                                        <div class="d-flex flex-row">
-                                            @(((MonthWorkInfo)context.Key).MonthName)
-                                            <div class="ms-auto">
-                                                @(((MonthWorkInfo)context.Key).TotalSalary.ToString("N2")) ₽
-                                            </div>
+                        <MudTable Height="23rem" Hover FixedHeader Dense Items="@statistic" GroupBy="@groupDefinition">
+                            <HeaderContent>
+                                <MudTh>Пользователь</MudTh>
+                                <MudTh>Время работы</MudTh>
+                                <MudTh>Оклад</MudTh>
+                            </HeaderContent>
+                            <GroupHeaderTemplate>
+                                <MudTh Style="font-weight: bold; color: var(--mud-palette-secondary)" colspan="3">
+                                    <div class="d-flex flex-row">
+                                        @(((MonthWorkInfo)context.Key).MonthName)
+                                        <div class="ms-auto">
+                                            @(((MonthWorkInfo)context.Key).TotalSalary.ToString("N2")) ₽
                                         </div>
-                                    </MudTh>
-                                </GroupHeaderTemplate>
-                                <RowTemplate>
-                                    <MudTd DataLabel="Пользователь">@context.User.Name</MudTd>
-                                    <MudTd DataLabel="Время">@context.WorkDuration.Humanize()</MudTd>
-                                    <MudTd DataLabel="Оклад">@context.TotalSalary.ToString("N2") ₽</MudTd>
-                                </RowTemplate>
-                            </MudTable>
+                                    </div>
+                                </MudTh>
+                            </GroupHeaderTemplate>
+                            <RowTemplate>
+                                <MudTd DataLabel="Пользователь">@context.User.Name</MudTd>
+                                <MudTd DataLabel="Время">@context.WorkDuration.Humanize()</MudTd>
+                                <MudTd DataLabel="Оклад">@context.TotalSalary.ToString("N2") ₽</MudTd>
+                            </RowTemplate>
+                        </MudTable>
                     </MudItem>
                     <MudItem>
-                        <MudPaper Height="30rem" Class="p-3">
+                        <MudPaper Height="23rem" Class="p-3">
                             <MudStack Class="w-100 h-100" Row>
                                 <MudChart CanHideSeries ChartType="ChartType.Line" ChartSeries="@series" XAxisLabels="@xAxisLabels" Width="100%" ChartOptions="options"></MudChart>
                                 @if (showDonutChart)
                                 {
-                                    <MudDivider Vertical />
-                                    <MudChart ChartType="ChartType.Donut" InputData="@donutData" @bind-SelectedIndex="donutSelectedIndex" Width="100%" InputLabels="@donutLabels" />
+                                    <MudDivider Vertical/>
+                                    <MudChart ChartType="ChartType.Donut" InputData="@donutData" @bind-SelectedIndex="donutSelectedIndex" Width="100%" InputLabels="@donutLabels"/>
                                 }
                             </MudStack>
                         </MudPaper>
@@ -91,7 +90,7 @@
             </MudGrid>
             @if (!ShowForUser && startDate != null && endDate != null)
             {
-                <MudFab Target="_blank" Href="@Pages.ReportsExportPage.GetUrl(AppSettings.ApiUri, startDate.Value.ToUniversalTime(), endDate.Value.AddMonths(1).ToUniversalTime())"  Style="position: absolute; bottom: 20px; right: 20px;" Color="Color.Primary" StartIcon="@Icons.Material.Rounded.ImportExport" />
+                <MudFab Target="_blank" Href="@Pages.ReportsExportPage.GetUrl(AppSettings.ApiUri, startDate.Value.ToUniversalTime(), endDate.Value.AddMonths(1).ToUniversalTime())" Style="position: absolute; bottom: 20px; right: 20px;" Color="Color.Primary" StartIcon="@Icons.Material.Rounded.ImportExport"/>
             }
         </div>
     </content>
