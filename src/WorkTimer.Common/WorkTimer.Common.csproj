@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj" />
+    <PackageReference Include="QuickActions.Common" Version="1.0.0"/>
   </ItemGroup>
 
 </Project>

@@ -6,14 +6,12 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["WorkTimer.Web/WorkTimer.Web.csproj", "WorkTimer.Web/"]
-COPY ["submodules/quick-actions/QuickActions.Common/QuickActions.Common.csproj", "submodules/quick-actions/QuickActions.Common/"]
-COPY ["submodules/quick-actions/QuickActions.Web.Identity/QuickActions.Web.Identity.csproj", "submodules/quick-actions/QuickActions.Web.Identity/"]
-COPY ["WorkTimer.Common/WorkTimer.Common.csproj", "WorkTimer.Common/"]
-COPY ["WorkTimer.Web.Common/WorkTimer.Web.Common.csproj", "WorkTimer.Web.Common/"]
-RUN dotnet restore "WorkTimer.Web/WorkTimer.Web.csproj"
+COPY ["src/WorkTimer.Web/WorkTimer.Web.csproj", "src/WorkTimer.Web/"]
+COPY ["src/WorkTimer.Common/WorkTimer.Common.csproj", "src/WorkTimer.Common/"]
+COPY ["src/WorkTimer.Web.Common/WorkTimer.Web.Common.csproj", "src/WorkTimer.Web.Common/"]
+RUN dotnet restore "src/WorkTimer.Web/WorkTimer.Web.csproj"
 COPY . .
-WORKDIR "/src/WorkTimer.Web"
+WORKDIR "/src/src/WorkTimer.Web"
 RUN dotnet build "WorkTimer.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

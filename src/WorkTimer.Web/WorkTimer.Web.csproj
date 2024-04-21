@@ -16,8 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj" />
-    <ProjectReference Include="..\..\submodules\quick-actions\QuickActions.Web.Identity\QuickActions.Web.Identity.csproj" />
     <ProjectReference Include="..\WorkTimer.Common\WorkTimer.Common.csproj" />
     <ProjectReference Include="..\WorkTimer.Web.Common\WorkTimer.Web.Common.csproj" />
   </ItemGroup>
@@ -29,9 +27,9 @@
     <Content Update="wwwroot\appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
-      <Content Include="..\.dockerignore">
-          <Link>.dockerignore</Link>
-      </Content>
+    <Content Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
 
 </Project>

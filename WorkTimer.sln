@@ -13,21 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Web", "src\WorkTi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkTimer.Web.Common", "src\WorkTimer.Web.Common\WorkTimer.Web.Common.csproj", "{8596246A-3084-4868-B9F6-FBF6129048A1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{1A5B9118-4805-411A-AAF2-BA280F0E9959}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2F8938F-143D-46A8-8D7F-25B673FAE4D0}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Api", "submodules\quick-actions\QuickActions.Api\QuickActions.Api.csproj", "{D05A8CBA-0719-479B-8CB9-A36106C77E09}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Api.Identity", "submodules\quick-actions\QuickActions.Api.Identity\QuickActions.Api.Identity.csproj", "{07CFBDE3-5AED-4749-B00A-FEC687F70163}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Common", "submodules\quick-actions\QuickActions.Common\QuickActions.Common.csproj", "{7B3BD5C4-C3FB-40AE-8DBA-38A5FC14F2DD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickActions.Web.Identity", "submodules\quick-actions\QuickActions.Web.Identity\QuickActions.Web.Identity.csproj", "{C59270A8-4B0C-432F-BAAD-FF445AB8870E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{96AFA02B-36DE-42E5-B1F0-F08EC66B7209}"
 EndProject
@@ -63,22 +53,6 @@ Global
 		{8596246A-3084-4868-B9F6-FBF6129048A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8596246A-3084-4868-B9F6-FBF6129048A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8596246A-3084-4868-B9F6-FBF6129048A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D05A8CBA-0719-479B-8CB9-A36106C77E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D05A8CBA-0719-479B-8CB9-A36106C77E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D05A8CBA-0719-479B-8CB9-A36106C77E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D05A8CBA-0719-479B-8CB9-A36106C77E09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07CFBDE3-5AED-4749-B00A-FEC687F70163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07CFBDE3-5AED-4749-B00A-FEC687F70163}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07CFBDE3-5AED-4749-B00A-FEC687F70163}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07CFBDE3-5AED-4749-B00A-FEC687F70163}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B3BD5C4-C3FB-40AE-8DBA-38A5FC14F2DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B3BD5C4-C3FB-40AE-8DBA-38A5FC14F2DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B3BD5C4-C3FB-40AE-8DBA-38A5FC14F2DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B3BD5C4-C3FB-40AE-8DBA-38A5FC14F2DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C59270A8-4B0C-432F-BAAD-FF445AB8870E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C59270A8-4B0C-432F-BAAD-FF445AB8870E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C59270A8-4B0C-432F-BAAD-FF445AB8870E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C59270A8-4B0C-432F-BAAD-FF445AB8870E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06B12A6B-1AA3-4A2F-8918-9B76BAB4DB54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06B12A6B-1AA3-4A2F-8918-9B76BAB4DB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06B12A6B-1AA3-4A2F-8918-9B76BAB4DB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -88,10 +62,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D05A8CBA-0719-479B-8CB9-A36106C77E09} = {1A5B9118-4805-411A-AAF2-BA280F0E9959}
-		{07CFBDE3-5AED-4749-B00A-FEC687F70163} = {1A5B9118-4805-411A-AAF2-BA280F0E9959}
-		{7B3BD5C4-C3FB-40AE-8DBA-38A5FC14F2DD} = {1A5B9118-4805-411A-AAF2-BA280F0E9959}
-		{C59270A8-4B0C-432F-BAAD-FF445AB8870E} = {1A5B9118-4805-411A-AAF2-BA280F0E9959}
 		{A5118981-1BA6-4B23-9F9E-AFA910BF57F9} = {96AFA02B-36DE-42E5-B1F0-F08EC66B7209}
 		{3C0AF861-CB55-4AD4-93CE-0548F4C712AA} = {96AFA02B-36DE-42E5-B1F0-F08EC66B7209}
 		{7CE6013B-E143-4AA9-8798-BD3CF98D22A5} = {96AFA02B-36DE-42E5-B1F0-F08EC66B7209}
